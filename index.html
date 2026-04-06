@@ -322,12 +322,32 @@ body {
   .main { margin-left: 0; padding: 20px; }
   .section { break-inside: avoid; }
 }
-</style>
+
+        .top-logo {
+            position: fixed;
+            top: 16px;
+            left: 276px;
+            z-index: 1001;
+            transition: opacity 0.2s;
+        }
+        .top-logo:hover { opacity: 0.8; }
+        .top-logo img {
+            height: 40px;
+            width: auto;
+        }
+        @media (max-width: 900px) {
+            .top-logo { top: 12px; left: 60px; }
+            .top-logo img { height: 32px; }
+        }
+    </style>
 </head>
 <body>
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
   <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
+    <a href="https://rkonfal.github.io/diamond-plus-portal/" class="top-logo" title="Zpět na portál">
+        <img src="https://raw.githubusercontent.com/rkonfal/diamond-plus-portal/main/logo.png" alt="Království TianDe">
+    </a>
 <div class="overlay" onclick="toggleSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
