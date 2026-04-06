@@ -54,9 +54,21 @@ body {
   transition: transform .3s ease;
   overflow-y: auto;
 }
-.sidebar-logo { display: block; text-decoration: none; }
-        .sidebar-logo img { width: 100%; max-width: 200px; }
-        .sidebar-logo:hover { opacity: 0.85; }
+.sidebar-logo {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+}
+.sidebar-logo h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+.sidebar-logo span {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+}
 
 
 .sidebar-reports { padding: 14px 0 0; }
@@ -332,9 +344,10 @@ body {
 <div class="overlay" onclick="toggleSidebar()"></div>
 
 <aside class="sidebar" id="sidebar">
-  <a href="https://rkonfal.github.io/diamond-plus-portal/" class="sidebar-logo" title="Zpět na portál">
-    <img src="https://raw.githubusercontent.com/rkonfal/diamond-plus-portal/main/sidebar-logo.png" alt="Diamond Plus" style="width: 100%; max-width: 200px; padding: 16px 20px;">
-</a>
+  <div class="sidebar-logo">
+    <h2>DIAMOND PLUS</h2>
+    <span>Království TianDe</span>
+</div>
   <nav class="sidebar-reports">
     <a href="https://rkonfal.github.io/diamond-plus-portal/"><span class="report-emoji">🏠</span> Portál</a>
     <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💎</span> Finanční Dashboard</a>
