@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="cs">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-shop přehled — Diamond Plus</title>
+<style>
+:root {
+  --brand: #5C2450;
+  --brand-light: #7a3a6c;
+  --brand-dark: #3e1836;
+  --accent: #e6a817;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --text: #1e1e2f;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --sidebar-w: 260px;
+  --radius: 12px;
+}
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --card: #1a1c25;
+  --text: #e4e4e7;
+  --text-muted: #9ca3af;
+  --border: #2d2f3a;
+  --brand-light: #9b6490;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  zoom: 1;
+  min-height: 100vh;
+  display: flex;
+}
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, var(--brand-dark) 0%, var(--brand) 100%);
+  color: #fff;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+  overflow-y: auto;
+}
+.sidebar-logo {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid rgba(255,255,255,.12);
+}
+.sidebar-logo h2 { font-size: 16px; font-weight: 700; letter-spacing: .5px; }
+.sidebar-logo span { font-size: 11px; opacity: .65; display: block; margin-top: 2px; }
+.sidebar-reports { padding: 14px 0 0; }
+.sidebar-reports a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 24px;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-reports a:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-reports a.report-active {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-reports a .report-emoji { font-size: 15px; flex-shrink: 0; width: 18px; text-align: center; }
+.sidebar-divider {
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin: 10px 24px;
+}
+.sidebar-nav { padding: 4px 0; flex: 1; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 24px;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-nav a svg { width: 18px; height: 18px; flex-shrink: 0; }
+.sidebar-footer {
+  padding: 18px 24px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  font-size: 11px; opacity: .5;
+}
+/* HAMBURGER */
+.hamburger {
+  display: none;
+  position: fixed;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--brand);
+  border: none;
+  color: #fff;
+  width: 42px; height: 42px;
+  border-radius: 10px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
+}
+.hamburger svg { width: 22px; height: 22px; }
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
+}
+/* MAIN */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  padding: 32px 40px;
+  max-width: 1280px;
+}
+/* HEADER */
+.header { margin-bottom: 32px; }
+.header h1 { font-size: 26px; font-weight: 700; color: var(--brand); }
+[data-theme="dark"] .header h1 { color: var(--brand-light); }
+.header .period { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+.theme-toggle {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; gap: 6px;
+}
+/* KPI CARDS */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+.kpi-card.purple::before { background: var(--brand); }
+.kpi-card.gold::before { background: var(--accent); }
+.kpi-card.red::before { background: var(--danger); }
+.kpi-card.green::before { background: var(--success); }
+.kpi-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .7px; font-weight: 600; }
+.kpi-value { font-size: 28px; font-weight: 800; margin: 6px 0 2px; line-height: 1.2; }
+.kpi-sub { font-size: 12.5px; color: var(--text-muted); }
+/* SECTION */
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title svg { width: 20px; height: 20px; color: var(--brand); }
+[data-theme="dark"] .section-title svg { color: var(--brand-light); }
+/* CHART */
+.chart-container { width: 100%; overflow-x: auto; }
+.chart-container svg { display: block; margin: 0 auto; }
+/* LEGEND */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+/* DONUT */
+.donut-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.donut-stats { min-width: 200px; }
+.donut-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.donut-stat:last-child { border-bottom: none; }
+.donut-stat .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.donut-stat-left { display: flex; align-items: center; }
+.donut-stat-right { font-weight: 700; margin-left: 12px; text-align: right; }
+/* HBAR */
+.hbar-row { margin: 7px 0; }
+.hbar-label { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 3px; gap: 8px; }
+.hbar-label-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+.hbar-track {
+  width: 100%;
+  height: 20px;
+  background: var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.hbar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width .5s ease;
+  min-width: 4px;
+}
+/* TABLE */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+.data-table thead th {
+  background: var(--brand);
+  color: #fff;
+  padding: 11px 14px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+.data-table thead th:first-child { text-align: left; border-radius: 8px 0 0 0; }
+.data-table thead th:last-child { border-radius: 0 8px 0 0; }
+.data-table tbody td {
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tbody td:first-child { text-align: left; }
+.data-table tbody tr:hover { background: rgba(92,36,80,.04); }
+[data-theme="dark"] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
+.data-table tbody tr.total-row td { font-weight: 700; background: rgba(92,36,80,.06); }
+[data-theme="dark"] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
+.data-table tfoot td { font-weight: 700; padding: 11px 14px; text-align: right; }
+.data-table tfoot td:first-child { text-align: left; }
+/* RANK BADGE */
+.rank { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; line-height: 22px; text-align: center; margin-right: 6px; flex-shrink: 0; }
+.rank.gold { background: var(--accent); }
+.rank.silver { background: #9ca3af; }
+.rank.bronze { background: #cd7f32; }
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: flex; }
+  .overlay.show { display: block; }
+  .main { margin-left: 0; padding: 24px 18px; padding-top: 68px; }
+  .two-col { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  body { zoom: 1; }
+}
+@media print {
+  .sidebar, .hamburger, .overlay, .theme-toggle { display: none !important; }
+  .main { margin-left: 0; padding: 20px; }
+  .section { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
+
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h2>DIAMOND PLUS</h2>
+    <span>Království TianDe</span>
+  </div>
+  <nav class="sidebar-reports">
+    <a href="https://rkonfal.github.io/diamond-plus-portal/"><span class="report-emoji">🏠</span> Portál</a>
+    <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💎</span> Finanční Dashboard</a>
+    <a href="https://rkonfal.github.io/4px-obalovy-material/"><span class="report-emoji">📦</span> Obalový materiál</a>
+    <a href="https://rkonfal.github.io/4px-kpi-dashboard/"><span class="report-emoji">📊</span> Delivery KPI</a>
+    <a href="https://rkonfal.github.io/4px-carriers/"><span class="report-emoji">🚚</span> Přepravci</a>
+    <a href="#" class="report-active"><span class="report-emoji">🛒</span> E-shop</a>
+  </nav>
+  <div class="sidebar-divider"></div>
+  <nav class="sidebar-nav">
+    <a href="#kpi" class="active">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
+      Přehled KPI
+    </a>
+    <a href="#revenue">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+      Tržby po týdnech
+    </a>
+    <a href="#products">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      TOP 20 produktů
+    </a>
+    <a href="#payments">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      Způsoby plateb
+    </a>
+    <a href="#weektable">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      Týdenní tabulka
+    </a>
+  </nav>
+  <div class="sidebar-footer">
+    Vygenerováno 06.04.2026<br>
+    WPJ Shop API · Království TianDe
+  </div>
+</aside>
+
+<div class="main">
+  <!-- HEADER -->
+  <div class="header" id="kpi">
+    <div class="header-row">
+      <div>
+        <h1>E-shop přehled — Diamond Plus</h1>
+        <div class="period">Období: 04.01.2026 – 06.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
+      </div>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        Tmavý režim
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Celkové tržby</div>
+      <div class="kpi-value">48,1 mil. Kč</div>
+      <div class="kpi-sub">01/2026 – 04/2026 (aktivní objednávky)</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-label">Počet objednávek</div>
+      <div class="kpi-value">33 006</div>
+      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 994 stornovaných</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Průměrná objednávka</div>
+      <div class="kpi-value">1 457 Kč</div>
+      <div class="kpi-sub">průměrná hodnota košíku</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">TOP produkt</div>
+      <div class="kpi-value" style="font-size:18px;line-height:1.3">Fytogel Slaviton</div>
+      <div class="kpi-sub">11 656 ks prodáno &nbsp;|&nbsp; 3,0 mil. Kč</div>
+    </div>
+  </div>
+
+  <!-- WEEKLY REVENUE BAR CHART -->
+  <div class="section" id="revenue">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+      Tržby po týdnech (Kč s DPH)
+    </div>
+    <div class="chart-container">
+      <svg id="revenueBar" viewBox="0 0 840 360" style="width:100%;max-width:840px"></svg>
+    </div>
+  </div>
+
+  <!-- TOP 20 PRODUCTS -->
+  <div class="section" id="products">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      TOP 20 produktů
+    </div>
+    <div class="two-col" style="align-items:start">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)" id="top20-qty-title">Podle počtu prodaných kusů</div>
+        <div id="top20-qty-bars"></div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)" id="top20-rev-title">Podle tržeb (Kč)</div>
+        <div id="top20-rev-bars"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- PAYMENT METHODS -->
+  <div class="section" id="payments">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      Způsoby plateb
+    </div>
+    <div class="two-col" style="align-items:start">
+      <div class="donut-wrapper" style="justify-content:flex-start;gap:32px">
+        <svg id="paymentDonut" viewBox="0 0 200 200" width="200" height="200"></svg>
+        <div class="donut-stats" id="paymentStats"></div>
+      </div>
+      <div style="overflow-x:auto">
+        <table class="data-table">
+          <thead>
+            <tr><th>Způsob platby</th><th>Objednávky</th><th>Podíl</th><th>Tržby</th></tr>
+          </thead>
+          <tbody id="paymentTableBody"></tbody>
+          <tfoot>
+            <tr><td>CELKEM</td><td id="paymentTotalCount"></td><td>100,0 %</td><td id="paymentTotalRev"></td></tr>
+          </tfoot>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEKLY DETAIL TABLE -->
+  <div class="section" id="weektable">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      Detailní týdenní tabulka
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr><th>Týden</th><th>Datum</th><th>Objednávky</th><th>Tržby</th><th>Prům. košík</th><th>Podíl tržeb</th></tr>
+        </thead>
+        <tbody id="weekTableBody"></tbody>
+        <tfoot>
+          <tr><td>CELKEM</td><td></td><td id="weekTotalCount"></td><td id="weekTotalRev"></td><td id="weekAvgOrder"></td><td>100,0 %</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:24px 0 12px;font-size:12px;color:var(--text-muted);">
+    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 06.04.2026
+  </div>
+</div>
+
+<script>
+// ── Data ────────────────────────────────────────────────────────────────────────
+const weekly = [
+  {week:"2026-W01",revenue:83582,count:65},
+  {week:"2026-W02",revenue:3610463,count:2462},
+  {week:"2026-W03",revenue:4001809,count:2446},
+  {week:"2026-W04",revenue:3084967,count:2161},
+  {week:"2026-W05",revenue:3390073,count:2352},
+  {week:"2026-W06",revenue:3702398,count:2742},
+  {week:"2026-W07",revenue:3904096,count:2571},
+  {week:"2026-W08",revenue:3802527,count:2596},
+  {week:"2026-W09",revenue:3725012,count:2645},
+  {week:"2026-W10",revenue:4161496,count:3067},
+  {week:"2026-W11",revenue:3982989,count:2568},
+  {week:"2026-W12",revenue:4022186,count:2675},
+  {week:"2026-W13",revenue:3167177,count:2170},
+  {week:"2026-W14",revenue:3329577,count:2402},
+  {week:"2026-W15",revenue:128353,count:84}
+];
+
+const weekLabels = [
+  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01",
+  "W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02",
+  "W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03",
+  "W13\n23–29.03","W14\n30.03–05.04","W15\n06.04*"
+];
+
+const top20qty = [
+  {name:"Fytogel Slaviton",qty:11656},
+  {name:"Jemný intimní gel",qty:8246},
+  {name:"Vložky Nefr. svěž. denní super",qty:6694},
+  {name:"Denní vložky aloe Nefr. svěž.",qty:6205},
+  {name:"Fytonáplast Wutong (1 ks)",qty:6020},
+  {name:"Vložky Nefr. svěž. slipové",qty:5762},
+  {name:"Fytonáplast Jian Kang (1 ks)",qty:5155},
+  {name:"Vložky slipové s anionty Nefr.",qty:4918},
+  {name:"Denní vložky fytomembr. Energie",qty:4541},
+  {name:"Denní vložka Energie života",qty:4225},
+  {name:"Instantní nápoj čekanka L-karn.",qty:4165},
+  {name:"Vložky Nefr. svěž. super tenké",qty:3934},
+  {name:"Vložky Nefr. svěž. noční super",qty:3821},
+  {name:"Slipové vložky se stříbrem",qty:3309},
+  {name:"Kolag. liftingová maska mořsk.",qty:3166},
+  {name:"Denní vložky fytomembr. Energie",qty:3128},
+  {name:"Regener. krém na nohy had. olej",qty:2681},
+  {name:"Denní hygienická vložka Jemná",qty:2582},
+  {name:"Revitalizační maska Lingzhi 3ks",qty:2361},
+  {name:"Slipové vložky Nebeská bavlna",qty:2173}
+];
+
+const top20rev = [
+  {name:"Fytogel Slaviton",rev:3002253},
+  {name:"Jemný intimní gel",rev:2112994},
+  {name:"Kolagen višňová & granátová",rev:940217},
+  {name:"Vložky Nefr. svěž. denní super",rev:917251},
+  {name:"Funkční komplex Citrokalcevit",rev:798171},
+  {name:"Denní vložky fytomembr. Energie",rev:762899},
+  {name:"Fytonáplast Wutong (1 ks)",rev:744860},
+  {name:"Denní vložky aloe Nefr. svěž.",rev:731494},
+  {name:"Mycí prostřed. Mýdelník",rev:720514},
+  {name:"Vložky Nefr. svěž. slipové",rev:678500},
+  {name:"Zpevňující emulze tvář a krk",rev:672283},
+  {name:"Modelující gel tvar obličeje",rev:668836},
+  {name:"Fytonáplast Jian Kang (1 ks)",rev:635384},
+  {name:"Vložky slipové s anionty Nefr.",rev:582254},
+  {name:"Vložky Nefr. svěž. noční super",rev:526601},
+  {name:"Denní vložky fytomembr. Energie",rev:523033},
+  {name:"Masážní gel Orthophyt",rev:481970},
+  {name:"Glutatione complex",rev:481445},
+  {name:"Regenerační sérum v kapslích",rev:435129},
+  {name:"Vložky Nefr. svěž. super tenké",rev:427411}
+];
+
+const payments = [
+  {name:"Bezpečná platba online",count:17466,revenue:24511504},
+  {name:"Platba převodem",count:9670,revenue:15107133},
+  {name:"Dobírkou",count:5205,revenue:7217153},
+  {name:"Platba kartou",count:359,revenue:700021},
+  {name:"Hotově",count:225,revenue:288124},
+  {name:"Twisto – zaplať později",count:41,revenue:156258},
+  {name:"Twisto – na třetiny",count:27,revenue:98314},
+  {name:"Faktura",count:8,revenue:18109},
+  {name:"PayPal",count:4,revenue:91},
+  {name:"Neznámá",count:1,revenue:0}
+];
+
+const COLORS = ['#5C2450','#e6a817','#22c55e','#6366f1','#ef4444','#f59e0b','#06b6d4','#8b5cf6','#ec4899','#9ca3af'];
+
+// ── Helpers ──────────────────────────────────────────────────────────────────────
+function fmtN(v) {
+  return Math.round(v).toLocaleString('cs-CZ');
+}
+function fmtCZK(v) {
+  return fmtN(v) + '\u00a0Kč';
+}
+function getTC() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#9ca3af' : '#6b7280';
+}
+function getGC() {
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#2d2f3a' : '#e5e7eb';
+}
+
+// ── Bar Chart (Revenue by Week) ──────────────────────────────────────────────────
+function drawRevenueBar() {
+  const svg = document.getElementById('revenueBar');
+  const W = 840, H = 360;
+  const pad = {t:30, r:20, b:60, l:75};
+  const cW = W - pad.l - pad.r, cH = H - pad.t - pad.b;
+  const maxVal = 4500000;
+  const n = weekly.length;
+  const gap = cW / n;
+  const barW = gap * 0.55;
+  const tc = getTC(), gc = getGC();
+  let html = '';
+
+  // Grid lines & Y axis
+  const ySteps = [0, 1000000, 2000000, 3000000, 4000000];
+  ySteps.forEach(v => {
+    const y = pad.t + cH - (v / maxVal) * cH;
+    html += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gc}" stroke-width="1"/>`;
+    const label = v === 0 ? '0' : (v/1000000).toFixed(0) + '\u00a0mil.';
+    html += `<text x="${pad.l-8}" y="${y+4}" text-anchor="end" fill="${tc}" font-size="11">${label}</text>`;
+  });
+
+  // Bars
+  weekly.forEach((w, i) => {
+    const x = pad.l + i * gap + gap/2 - barW/2;
+    const h = (w.revenue / maxVal) * cH;
+    const y = pad.t + cH - h;
+    const isPartial = i === weekly.length - 1;
+    const color = isPartial ? '#9ca3af' : (w.revenue >= 4000000 ? '#e6a817' : '#5C2450');
+    html += `<rect x="${x}" y="${y}" width="${barW}" height="${h}" fill="${color}" rx="3" opacity="${isPartial ? 0.6 : 1}">`;
+    html += `<title>${weekLabels[i].replace('\n',' ')}: ${fmtCZK(w.revenue)} (${fmtN(w.count)} obj.)</title></rect>`;
+
+    // Value label
+    if (h > 22) {
+      html += `<text x="${x+barW/2}" y="${y-5}" text-anchor="middle" fill="${tc}" font-size="10" font-weight="700">${(w.revenue/1000000).toFixed(2)}</text>`;
+    }
+
+    // Week label (two lines)
+    const parts = weekLabels[i].split('\n');
+    html += `<text x="${x+barW/2}" y="${H-pad.b+16}" text-anchor="middle" fill="${tc}" font-size="9.5" font-weight="600">${parts[0]}</text>`;
+    html += `<text x="${x+barW/2}" y="${H-pad.b+28}" text-anchor="middle" fill="${tc}" font-size="9">${parts[1]||''}</text>`;
+  });
+
+  // Y label
+  html += `<text x="14" y="${pad.t + cH/2}" text-anchor="middle" fill="${tc}" font-size="11" transform="rotate(-90,14,${pad.t+cH/2})">Tržby (Kč)</text>`;
+
+  svg.innerHTML = html;
+}
+
+// ── Horizontal Bar Rows ──────────────────────────────────────────────────────────
+function drawHBars(containerId, data, maxVal, valFn, labelFn) {
+  const el = document.getElementById(containerId);
+  const rankClasses = ['gold','silver','bronze'];
+  el.innerHTML = data.map((d, i) => {
+    const pct = Math.max((valFn(d) / maxVal) * 100, 0.5);
+    const rankClass = i < 3 ? rankClasses[i] : '';
+    return `
+      <div class="hbar-row">
+        <div class="hbar-label">
+          <span class="hbar-label-name">
+            <span class="rank${rankClass ? ' '+rankClass : ''}">${i+1}</span>${d.name}
+          </span>
+          <span style="font-weight:700;color:var(--text);white-space:nowrap">${labelFn(d)}</span>
+        </div>
+        <div class="hbar-track">
+          <div class="hbar-fill" style="width:${pct}%;background:${COLORS[Math.min(i,COLORS.length-1)]}"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+// ── Donut Chart ──────────────────────────────────────────────────────────────────
+function drawPaymentDonut() {
+  const svg = document.getElementById('paymentDonut');
+  const totalCount = payments.reduce((s, p) => s + p.count, 0);
+  const topPayments = payments.slice(0, 7);
+  const cx = 100, cy = 100, R = 85, r = 52;
+  let angle = -Math.PI / 2;
+  let paths = '';
+
+  topPayments.forEach((p, i) => {
+    const a = (p.count / totalCount) * 2 * Math.PI;
+    const x1 = cx + R * Math.cos(angle), y1 = cy + R * Math.sin(angle);
+    const x2 = cx + R * Math.cos(angle + a), y2 = cy + R * Math.sin(angle + a);
+    const x3 = cx + r * Math.cos(angle + a), y3 = cy + r * Math.sin(angle + a);
+    const x4 = cx + r * Math.cos(angle), y4 = cy + r * Math.sin(angle);
+    const large = a > Math.PI ? 1 : 0;
+    paths += `<path d="M${x1},${y1} A${R},${R} 0 ${large},1 ${x2},${y2} L${x3},${y3} A${r},${r} 0 ${large},0 ${x4},${y4} Z" fill="${COLORS[i]}">`;
+    paths += `<title>${p.name}: ${fmtN(p.count)} (${(p.count/totalCount*100).toFixed(1)} %)</title></path>`;
+    angle += a;
+  });
+
+  const tc = getTC();
+  paths += `<text x="${cx}" y="${cy-6}" text-anchor="middle" font-size="22" font-weight="800" fill="${tc}">${fmtN(totalCount)}</text>`;
+  paths += `<text x="${cx}" y="${cy+14}" text-anchor="middle" font-size="10" fill="${tc}">objednávek</text>`;
+  svg.innerHTML = paths;
+
+  // Stats sidebar
+  const stats = document.getElementById('paymentStats');
+  stats.innerHTML = topPayments.map((p, i) => `
+    <div class="donut-stat">
+      <div class="donut-stat-left"><div class="dot" style="background:${COLORS[i]}"></div>${p.name}</div>
+      <div class="donut-stat-right">${(p.count/totalCount*100).toFixed(1)}&nbsp;%</div>
+    </div>`).join('');
+}
+
+// ── Payment Table ────────────────────────────────────────────────────────────────
+function buildPaymentTable() {
+  const totalCount = payments.reduce((s, p) => s + p.count, 0);
+  const totalRev = payments.reduce((s, p) => s + p.revenue, 0);
+  const tbody = document.getElementById('paymentTableBody');
+  tbody.innerHTML = payments.map(p => `
+    <tr>
+      <td>${p.name}</td>
+      <td>${fmtN(p.count)}</td>
+      <td>${(p.count/totalCount*100).toFixed(1)}&nbsp;%</td>
+      <td>${fmtCZK(p.revenue)}</td>
+    </tr>`).join('');
+  document.getElementById('paymentTotalCount').textContent = fmtN(totalCount);
+  document.getElementById('paymentTotalRev').textContent = fmtCZK(totalRev);
+}
+
+// ── Weekly Table ─────────────────────────────────────────────────────────────────
+function buildWeekTable() {
+  const totalRev = weekly.reduce((s, w) => s + w.revenue, 0);
+  const totalCount = weekly.reduce((s, w) => s + w.count, 0);
+  const tbody = document.getElementById('weekTableBody');
+  tbody.innerHTML = weekly.map((w, i) => {
+    const isPartial = i === weekly.length - 1;
+    const avg = w.count > 0 ? w.revenue / w.count : 0;
+    const pct = (w.revenue / totalRev * 100).toFixed(1);
+    const parts = weekLabels[i].split('\n');
+    return `<tr${isPartial ? ' style="opacity:.65"' : ''}>
+      <td><strong>${parts[0]}</strong>${isPartial ? '<span style="color:var(--text-muted);font-size:11px"> *neúplný</span>' : ''}</td>
+      <td style="color:var(--text-muted);font-size:12px">${parts[1]||''}</td>
+      <td>${fmtN(w.count)}</td>
+      <td>${fmtCZK(w.revenue)}</td>
+      <td>${fmtCZK(avg)}</td>
+      <td>${pct}&nbsp;%</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('weekTotalCount').textContent = fmtN(totalCount);
+  document.getElementById('weekTotalRev').textContent = fmtCZK(totalRev);
+  document.getElementById('weekAvgOrder').textContent = fmtCZK(totalRev / totalCount);
+}
+
+// ── Draw All ─────────────────────────────────────────────────────────────────────
+function drawAll() {
+  drawRevenueBar();
+  drawHBars('top20-qty-bars', top20qty, top20qty[0].qty, d => d.qty, d => fmtN(d.qty) + ' ks');
+  drawHBars('top20-rev-bars', top20rev, top20rev[0].rev, d => d.rev, d => fmtCZK(d.rev));
+  drawPaymentDonut();
+  buildPaymentTable();
+  buildWeekTable();
+}
+
+drawAll();
+
+// ── Theme ─────────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? '' : 'dark');
+  drawAll();
+}
+
+// ── Sidebar ───────────────────────────────────────────────────────────────────────
+function toggleSidebar() {
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('show');
+}
+
+// ── Active Nav on Scroll ──────────────────────────────────────────────────────────
+const sections = document.querySelectorAll('.section[id], .header[id]');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// Default dark mode
+document.documentElement.setAttribute('data-theme', 'dark');
+drawAll();
+</script>
+</body>
+</html>
