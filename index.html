@@ -338,6 +338,19 @@ body {
     </style>
 </head>
 <body>
+<div style="background:#1a3a5c;border-left:5px solid #f0a500;padding:18px 24px;margin:18px 18px 0 18px;border-radius:8px;font-family:sans-serif;color:#fff;">
+  <h3 style="margin:0 0 10px;color:#f0a500;font-size:1.1em;">💰 Co tato čísla znamenají pro naši kasu</h3>
+  <p style="margin:0 0 8px;font-size:0.95em;line-height:1.6;">
+    <strong>Průměrná objednávka:</strong> 1 457 Kč &nbsp;|&nbsp; <strong>Zisk z objednávky:</strong> ~75 Kč (marže ~5 %)
+  </p>
+  <p style="margin:0 0 8px;font-size:0.95em;line-height:1.6;">
+    Každých 100 objednávek navíc = +7 500 Kč zisk. Každý ztracený zákazník = -75 Kč přímo z kapsy.
+  </p>
+  <p style="margin:0;font-size:0.9em;color:#aac8e8;">
+    🟢 Týden nad průměrem &nbsp;|&nbsp; 🟡 Týden pod průměrem &nbsp;|&nbsp; 🔴 Propad o více než 20 % → zjistit proč!
+  </p>
+</div>
+
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
   <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
@@ -364,15 +377,15 @@ body {
     </a>
     <a href="#revenue">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-      Tržby po týdnech
+      Kolik vyděláváme každý týden
     </a>
     <a href="#products">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-      TOP 20 produktů
+      Naše nejprodávanější produkty
     </a>
     <a href="#payments">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      Způsoby plateb
+      Jak zákazníci platí
     </a>
     <a href="#weektable">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
@@ -432,7 +445,7 @@ body {
   <div class="section" id="revenue">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-      Tržby po týdnech (Kč s DPH)
+      Kolik vyděláváme každý týden (Kč s DPH)
     </div>
     <div class="chart-container">
       <svg id="revenueBar" viewBox="0 0 840 360" style="width:100%;max-width:840px"></svg>
@@ -443,7 +456,7 @@ body {
   <div class="section" id="products">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-      TOP 20 produktů
+      Naše nejprodávanější produkty
     </div>
     <div class="two-col" style="align-items:start">
       <div>
@@ -461,7 +474,7 @@ body {
   <div class="section" id="payments">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      Způsoby plateb
+      Jak zákazníci platí
     </div>
     <div class="two-col" style="align-items:start">
       <div class="donut-wrapper" style="justify-content:flex-start;gap:32px">
@@ -505,7 +518,7 @@ body {
   <div class="section" id="top-zakaznici">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      TOP 25 zákazníků — obrat 2026
+      Naši největší zákazníci — obrat 2026
     </div>
     <div class="two-col" style="align-items:start;margin-bottom:28px">
       <div>
