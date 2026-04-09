@@ -1,445 +1,551 @@
 <!DOCTYPE html>
-<html lang="cs" class="h-full dark">
+<html lang="cs">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>E-shop přehled — Diamond Plus</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui'] },
-          colors: {
-            brand: {
-              DEFAULT: '#4A154B',
-              light: '#6B2D6C',
-              dark: '#350F36',
-              50: '#F9F0F9',
-              100: '#F0D9F0',
-            }
-          }
-        }
-      }
-    }
-  </script>
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    /* CSS vars for JS-rendered content */
-    :root {
-      --brand: #4A154B;
-      --accent: #e6a817;
-      --border: #e5e7eb;
-      --text: #1e1e2f;
-      --text-muted: #6b7280;
-    }
-    .dark {
-      --border: #374151;
-      --text: #e4e4e7;
-      --text-muted: #9ca3af;
-    }
-    .sidebar-link { transition: background 0.15s, color 0.15s; }
-    .sidebar-link:hover { background: rgba(255,255,255,0.12); }
-    .sidebar-link.active { background: rgba(255,255,255,0.18); font-weight: 600; }
-    /* Horizontal bars */
-    .hbar-row { margin: 7px 0; }
-    .hbar-label { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 3px; gap: 8px; color: var(--text); }
-    .hbar-label-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
-    .hbar-track { width: 100%; height: 20px; background: var(--border); border-radius: 5px; overflow: hidden; }
-    .hbar-fill { height: 100%; border-radius: 5px; transition: width .5s ease; min-width: 4px; }
-    /* Rank badge */
-    .rank { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; line-height: 22px; text-align: center; margin-right: 6px; flex-shrink: 0; }
-    .rank.gold { background: #e6a817; }
-    .rank.silver { background: #9ca3af; }
-    .rank.bronze { background: #cd7f32; }
-    /* Donut stats */
-    .donut-stat { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid var(--border); font-size: 13.5px; color: var(--text); }
-    .donut-stat:last-child { border-bottom: none; }
-    .donut-stat .dot { width: 10px; height: 10px; border-radius: 50%; margin-right: 8px; flex-shrink: 0; }
-    .donut-stat-left { display: flex; align-items: center; }
-    .donut-stat-right { font-weight: 700; margin-left: 12px; text-align: right; }
-    /* Donut wrapper */
-    .donut-wrapper { display: flex; align-items: center; justify-content: center; gap: 48px; flex-wrap: wrap; }
-    .donut-stats { min-width: 200px; }
-    /* Table */
-    .data-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 13px; }
-    .data-table thead th { background: #4A154B; color: #fff; padding: 11px 14px; text-align: right; font-weight: 600; font-size: 12px; letter-spacing: .3px; white-space: nowrap; }
-    .data-table thead th:first-child { text-align: left; border-radius: 8px 0 0 0; }
-    .data-table thead th:last-child { border-radius: 0 8px 0 0; }
-    .data-table tbody td { padding: 10px 14px; text-align: right; border-bottom: 1px solid var(--border); color: var(--text); }
-    .data-table tbody td:first-child { text-align: left; }
-    .data-table tbody tr:hover { background: rgba(74,21,75,.05); }
-    .dark .data-table tbody tr:hover { background: rgba(107,45,108,.1); }
-    .data-table tfoot td { font-weight: 700; padding: 11px 14px; text-align: right; color: var(--text); }
-    .data-table tfoot td:first-child { text-align: left; }
-    /* KPI card hover */
-    .kpi-card { transition: box-shadow 0.2s, transform 0.2s; }
-    .kpi-card:hover { box-shadow: 0 6px 24px rgba(74,21,75,0.14); transform: translateY(-2px); }
-    /* Sidebar transition */
-    #sidebar { transition: transform 0.25s cubic-bezier(.4,0,.2,1); }
-    /* Scrollbar */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: transparent; }
-    ::-webkit-scrollbar-thumb { background: #d1c4d2; border-radius: 99px; }
-    .dark ::-webkit-scrollbar-thumb { background: #4a2f4b; }
-    @media print {
-      #sidebar, #overlay { display: none !important; }
-      .lg\:pl-64 { padding-left: 0 !important; }
-    }
-  
-/* === MOBILE RESPONSIVE FIX === */
-@media (max-width: 1023px) {
-  #sidebar {
-    position: fixed !important;
-    top: 0 !important;
-    left: 0 !important;
-    width: 256px !important;
-    height: 100vh !important;
-    transform: translateX(-100%) !important;
-    transition: transform 0.3s ease !important;
-    z-index: 1000 !important;
-  }
-  #sidebar.open {
-    transform: translateX(0) !important;
-  }
-  .main-content, .main, main,
-  [style*="margin-left: 256px"], [style*="margin-left:256px"],
-  [style*="margin-left: 260px"], [style*="margin-left:260px"] {
-    margin-left: 0 !important;
-    padding-left: 16px !important;
-    padding-right: 16px !important;
-    max-width: 100vw !important;
-    overflow-x: hidden !important;
-  }
-  .hamburger-btn {
-    display: flex !important;
-  }
-  .sidebar-overlay {
-    display: none;
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.5);
-    z-index: 999;
-  }
-  .sidebar-overlay.open {
-    display: block;
-  }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E-shop přehled — Diamond Plus</title>
+<style>
+:root {
+  --brand: #5C2450;
+  --brand-light: #7a3a6c;
+  --brand-dark: #3e1836;
+  --accent: #e6a817;
+  --success: #22c55e;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --bg: #f4f5f7;
+  --card: #ffffff;
+  --text: #1e1e2f;
+  --text-muted: #6b7280;
+  --border: #e5e7eb;
+  --sidebar-w: 260px;
+  --radius: 12px;
 }
-@media (min-width: 1024px) {
-  #sidebar {
-    transform: translateX(0) !important;
-  }
+[data-theme="dark"] {
+  --bg: #0f1117;
+  --card: #1a1c25;
+  --text: #e4e4e7;
+  --text-muted: #9ca3af;
+  --border: #2d2f3a;
+  --brand-light: #9b6490;
 }
-.hamburger-btn {
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  zoom: 1;
+  min-height: 100vh;
+  display: flex;
+  overflow-x: hidden;
+}
+/* SIDEBAR */
+.sidebar {
+  width: var(--sidebar-w);
+  background: linear-gradient(180deg, var(--brand-dark) 0%, var(--brand) 100%);
+  color: #fff;
+  position: fixed;
+  top: 0; left: 0;
+  height: 100vh;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  transition: transform .3s ease;
+  overflow-y: auto;
+}
+.sidebar-logo {
+    padding: 24px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+}
+.sidebar-logo h2 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #fff;
+    margin: 0;
+}
+.sidebar-logo span {
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+}
+
+
+.sidebar-reports { padding: 14px 0 0; }
+.sidebar-reports a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 9px 24px;
+  color: rgba(255,255,255,.7);
+  text-decoration: none;
+  font-size: 12.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-reports a:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-reports a.report-active {
+  background: rgba(255,255,255,.12);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-reports a .report-emoji { font-size: 15px; flex-shrink: 0; width: 18px; text-align: center; }
+.sidebar-divider {
+  height: 1px;
+  background: rgba(255,255,255,.12);
+  margin: 10px 24px;
+}
+.sidebar-nav { padding: 4px 0; flex: 1; }
+.sidebar-nav a {
+  display: flex; align-items: center; gap: 12px;
+  padding: 11px 24px;
+  color: rgba(255,255,255,.75);
+  text-decoration: none;
+  font-size: 13.5px;
+  font-weight: 500;
+  border-left: 3px solid transparent;
+  transition: all .2s;
+}
+.sidebar-nav a:hover, .sidebar-nav a.active {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-left-color: var(--accent);
+}
+.sidebar-nav a svg { width: 18px; height: 18px; flex-shrink: 0; }
+.sidebar-footer {
+  padding: 18px 24px;
+  border-top: 1px solid rgba(255,255,255,.12);
+  font-size: 11px; opacity: .5;
+}
+/* HAMBURGER */
+.hamburger {
   display: none;
   position: fixed;
-  top: 12px;
-  left: 12px;
-  z-index: 1100;
-  background: #1e293b;
+  top: 14px; left: 14px;
+  z-index: 200;
+  background: var(--brand);
   border: none;
-  border-radius: 6px;
-  padding: 8px 10px;
+  color: #fff;
+  width: 42px; height: 42px;
+  border-radius: 10px;
   cursor: pointer;
-  flex-direction: column;
-  gap: 5px;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 12px rgba(0,0,0,.25);
 }
-.hamburger-btn span {
-  display: block;
-  width: 22px;
-  height: 2px;
-  background: #fff;
-  border-radius: 2px;
+.hamburger svg { width: 22px; height: 22px; }
+.overlay {
+  display: none;
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 90;
 }
-
+/* MAIN */
+.main {
+  flex: 1;
+  margin-left: var(--sidebar-w);
+  padding: 32px 40px;
+  max-width: calc(100vw - 260px);
+  overflow-x: hidden;
+}
+/* HEADER */
+.header { margin-bottom: 32px; }
+.header h1 { font-size: 26px; font-weight: 700; color: var(--brand); }
+[data-theme="dark"] .header h1 { color: var(--brand-light); }
+.header .period { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+.header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
+.theme-toggle {
+  background: var(--card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  display: flex; align-items: center; gap: 6px;
+}
+/* KPI CARDS */
+.kpi-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 18px;
+  margin-bottom: 32px;
+}
+.kpi-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 22px 24px;
+  position: relative;
+  overflow: hidden;
+}
+.kpi-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0;
+  width: 4px; height: 100%;
+}
+.kpi-card.purple::before { background: var(--brand); }
+.kpi-card.gold::before { background: var(--accent); }
+.kpi-card.red::before { background: var(--danger); }
+.kpi-card.green::before { background: var(--success); }
+.kpi-label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: .7px; font-weight: 600; }
+.kpi-value { font-size: 28px; font-weight: 800; margin: 6px 0 2px; line-height: 1.2; }
+.kpi-sub { font-size: 12.5px; color: var(--text-muted); }
+/* SECTION */
+.section {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  margin-bottom: 24px;
+}
+.section-title {
+  font-size: 17px;
+  font-weight: 700;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.section-title svg { width: 20px; height: 20px; color: var(--brand); }
+[data-theme="dark"] .section-title svg { color: var(--brand-light); }
+/* CHART */
+.chart-container { width: 100%; overflow-x: auto; }
+.chart-container svg { display: block; margin: 0 auto; }
+/* LEGEND */
+.legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-top: 16px;
+  justify-content: center;
+}
+.legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12.5px;
+  color: var(--text-muted);
+}
+.legend-dot {
+  width: 12px; height: 12px;
+  border-radius: 3px;
+  flex-shrink: 0;
+}
+/* DONUT */
+.donut-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 48px;
+  flex-wrap: wrap;
+}
+.donut-stats { min-width: 200px; }
+.donut-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border);
+  font-size: 13.5px;
+}
+.donut-stat:last-child { border-bottom: none; }
+.donut-stat .dot {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+  flex-shrink: 0;
+}
+.donut-stat-left { display: flex; align-items: center; }
+.donut-stat-right { font-weight: 700; margin-left: 12px; text-align: right; }
+/* HBAR */
+.hbar-row { margin: 7px 0; }
+.hbar-label { display: flex; justify-content: space-between; font-size: 12.5px; margin-bottom: 3px; gap: 8px; }
+.hbar-label-name { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 60%; }
+.hbar-track {
+  width: 100%;
+  height: 20px;
+  background: var(--border);
+  border-radius: 5px;
+  overflow: hidden;
+}
+.hbar-fill {
+  height: 100%;
+  border-radius: 5px;
+  transition: width .5s ease;
+  min-width: 4px;
+}
+/* TABLE */
+.data-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  font-size: 13px;
+}
+.data-table thead th {
+  background: var(--brand);
+  color: #fff;
+  padding: 11px 14px;
+  text-align: right;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+.data-table thead th:first-child { text-align: left; border-radius: 8px 0 0 0; }
+.data-table thead th:last-child { border-radius: 0 8px 0 0; }
+.data-table tbody td {
+  padding: 10px 14px;
+  text-align: right;
+  border-bottom: 1px solid var(--border);
+}
+.data-table tbody td:first-child { text-align: left; }
+.data-table tbody tr:hover { background: rgba(92,36,80,.04); }
+[data-theme="dark"] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
+.data-table tbody tr.total-row td { font-weight: 700; background: rgba(92,36,80,.06); }
+[data-theme="dark"] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
+.data-table tfoot td { font-weight: 700; padding: 11px 14px; text-align: right; }
+.data-table tfoot td:first-child { text-align: left; }
+/* RANK BADGE */
+.rank { display: inline-block; width: 22px; height: 22px; border-radius: 50%; background: var(--brand); color: #fff; font-size: 11px; font-weight: 700; line-height: 22px; text-align: center; margin-right: 6px; flex-shrink: 0; }
+.rank.gold { background: var(--accent); }
+.rank.silver { background: #9ca3af; }
+.rank.bronze { background: #cd7f32; }
+/* TWO-COL */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+/* RESPONSIVE */
+@media (max-width: 900px) {
+  .sidebar { transform: translateX(-100%); }
+  .sidebar.open { transform: translateX(0); }
+  .hamburger { display: flex; }
+  .overlay.show { display: block; }
+  .main { margin-left: 0; padding: 24px 18px; padding-top: 68px; max-width: 100vw; }
+  .two-col { grid-template-columns: 1fr; }
+}
+@media (max-width: 600px) {
+  .kpi-grid { grid-template-columns: 1fr; }
+  body { zoom: 1; }
+}
+@media print {
+  .sidebar, .hamburger, .overlay, .theme-toggle { display: none !important; }
+  .main { margin-left: 0; padding: 20px; max-width: 100vw; }
+  .section { break-inside: avoid; }
+}
+        @media (max-width: 900px) {
+        }
+    
+.table-wrap, table { max-width: 100%; }
+.table-wrap { overflow-x: auto; }
 </style>
 </head>
-<body class="h-full bg-gray-50 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+<body>
 
-<!-- ── SIDEBAR ─────────────────────────────────────────────────────────── -->
-<aside id="sidebar"
-  class="fixed inset-y-0 left-0 z-40 w-64 flex flex-col "
-  style="background: linear-gradient(180deg, #4A154B 0%, #350F36 100%);">
+<button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
+  <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+</button>
+<div class="overlay" onclick="toggleSidebar()"></div>
 
-  <!-- Logo -->
-  <div class="flex items-center gap-3 px-6 py-5 border-b border-white/10">
-    <div class="w-9 h-9 rounded-xl bg-white/20 flex items-center justify-center text-white font-bold text-lg select-none">D+</div>
-    <div>
-      <div class="text-white font-semibold text-[15px] leading-tight">Diamond Plus</div>
-      <div class="text-white/50 text-[11px]">Business Portal</div>
-    </div>
-  </div>
-
-  <!-- Nav -->
-  <nav class="flex-1 overflow-y-auto py-4 px-3 space-y-0.5">
-    <a href="https://rkonfal.github.io/diamond-plus-portal/" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
-      Dashboard
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <h2>DIAMOND PLUS</h2>
+    <span>Království TianDe</span>
+</div>
+  <nav class="sidebar-reports">
+    <a href="https://rkonfal.github.io/diamond-plus-portal/"><span class="report-emoji">🏠</span> Portál</a>
+    <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💰</span> Hospodaření</a>
+    <a href="https://rkonfal.github.io/4px-obalovy-material/"><span class="report-emoji">📦</span> Obaly</a>
+    <a href="https://rkonfal.github.io/4px-kpi-dashboard/"><span class="report-emoji">📊</span> Expedice</a>
+    <a href="https://rkonfal.github.io/4px-carriers/"><span class="report-emoji">🚚</span> Přepravci</a>
+    <a href="#" class="report-active"><span class="report-emoji">🛒</span> E-shop</a>
+    <a href="https://rkonfal.github.io/inventory-dashboard/"><span class="report-emoji">📋</span> Sklad</a>
+  </nav>
+  <div class="sidebar-divider"></div>
+  <nav class="sidebar-nav">
+    <a href="#kpi" class="active">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
+      Přehled KPI
     </a>
-    <a href="https://rkonfal.github.io/diamond-plus-report/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-      Hospodaření
+    <a href="#revenue">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+      Tržby
     </a>
-    <a href="https://rkonfal.github.io/inventory-dashboard/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg>
-      Sklad
+    <a href="#products">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      Produkty
     </a>
-    <a href="https://rkonfal.github.io/4px-kpi-dashboard/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M5 17H3a2 2 0 01-2-2V5a2 2 0 012-2h11a2 2 0 012 2v3"/><rect x="9" y="11" width="14" height="10" rx="2"/><path d="M12 14h.01M16 14h.01M12 18h.01M16 18h.01"/></svg>
-      Expedice
+    <a href="#payments">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      Platby
     </a>
-    <a href="https://rkonfal.github.io/4px-carriers/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M1 3h15v13H1z"/><path d="M16 8h4l3 3v5h-7V8z"/><circle cx="5.5" cy="18.5" r="2.5"/><circle cx="18.5" cy="18.5" r="2.5"/></svg>
-      Přepravci
+    <a href="#weektable">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      Týdenní tabulka
     </a>
-    <a href="#" class="sidebar-link active flex items-center gap-3 px-3 py-2.5 rounded-lg text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-      E-shop
-    </a>
-    <a href="https://rkonfal.github.io/4px-obalovy-material/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/></svg>
-      Obaly
-    </a>
-    <a href="https://rkonfal.github.io/balicky-dashboard/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2l9 5-9 5-9-5 9-5z"/><path d="M3 7l9 5 9-5"/><path d="M3 12l9 5 9-5"/><path d="M3 17l9 5 9-5"/></svg>
-      Balíčky
-    </a>
-    <a href="https://rkonfal.github.io/skupiny-dashboard/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="9" cy="7" r="4"/><path d="M3 21v-2a4 4 0 014-4h4a4 4 0 014 4v2"/><path d="M16 3.13a4 4 0 010 7.75"/><path d="M21 21v-2a4 4 0 00-3-3.87"/></svg>
-      Skupiny
-    </a>
-    <a href="https://rkonfal.github.io/expirace-dashboard/" target="_blank" class="sidebar-link flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/80 hover:text-white text-sm">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-      Expirace
+    <a href="#top-zakaznici">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      TOP zákazníci
     </a>
   </nav>
-
-  <!-- Dark mode toggle + version -->
-  <div class="px-4 py-4 border-t border-white/10">
-    <button id="darkToggle"
-      onclick="toggleDark()"
-      class="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-white/70 hover:text-white hover:bg-white/10 text-sm transition">
-      <svg class="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-        <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
-      </svg>
-      <span>Tmavý režim</span>
-    </button>
-    <p class="text-white/25 text-[10px] text-center mt-3">v2.0 · Diamond Plus &copy; 2025</p>
+  <div class="sidebar-footer">
+    Vygenerováno 06.04.2026<br>
+    WPJ Shop API · Království TianDe
   </div>
 </aside>
 
-<!-- ── OVERLAY (mobile) ──────────────────────────────────────────────── -->
-<div id="overlay" class="fixed inset-0 z-30 bg-black/50 hidden" onclick="closeSidebar()"></div>
-
-<!-- ── MAIN ──────────────────────────────────────────────────────────── -->
-<div class="lg:pl-64 min-h-screen flex flex-col">
-
-  <!-- Top bar -->
-  <header class="sticky top-0 z-20 bg-white/80 dark:bg-gray-900/80 backdrop-blur border-b border-gray-200 dark:border-gray-800">
-    <div class="flex items-center justify-between px-6 py-3.5">
-      <div class="flex items-center gap-4">
-        <!-- Hamburger -->
-        <button onclick="toggleSidebar()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M4 6h16M4 12h16M4 18h16"/>
-          </svg>
-        </button>
-        <div>
-          <h1 class="text-xl font-bold text-gray-900 dark:text-white">E-shop přehled</h1>
-          <p class="text-xs text-gray-500 dark:text-gray-400">04.01.2026 – 06.04.2026 &nbsp;·&nbsp; 15 týdnů &nbsp;·&nbsp; Diamond Plus / Království TianDe</p>
-        </div>
+<div class="main">
+  <!-- HEADER -->
+  <div class="header" id="kpi">
+    <div class="header-row">
+      <div>
+        <h1>E-shop přehled — Diamond Plus</h1>
+        <div class="period">Období: 04.01.2026 – 06.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
       </div>
-      <div class="flex items-center gap-2">
-        <span class="hidden sm:inline-flex items-center gap-1.5 bg-green-50 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-xs font-medium px-3 py-1.5 rounded-full border border-green-200 dark:border-green-800">
-          <span class="w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
-          WPJ API · 06.04.2026
-        </span>
-        <button onclick="toggleDark()" class="lg:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition">
-          <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path d="M21 12.79A9 9 0 1111.21 3a7 7 0 009.79 9.79z"/>
-          </svg>
-        </button>
+      <button class="theme-toggle" onclick="toggleTheme()">
+        <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
+        Tmavý režim
+      </button>
+    </div>
+  </div>
+
+  <!-- KPI CARDS -->
+  <div class="kpi-grid">
+    <div class="kpi-card purple">
+      <div class="kpi-label">Celkové tržby</div>
+      <div class="kpi-value">48,1 mil. Kč</div>
+      <div class="kpi-sub">01/2026 – 04/2026 (aktivní objednávky)</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-label">Počet objednávek</div>
+      <div class="kpi-value">33 006</div>
+      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 994 stornovaných</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Průměrná objednávka</div>
+      <div class="kpi-value">1 457 Kč</div>
+      <div class="kpi-sub">průměrná hodnota košíku</div>
+    </div>
+    <div class="kpi-card red">
+      <div class="kpi-label">TOP produkt</div>
+      <div class="kpi-value" style="font-size:18px;line-height:1.3">Fytogel Slaviton</div>
+      <div class="kpi-sub">11 656 ks prodáno &nbsp;|&nbsp; 3,0 mil. Kč</div>
+    </div>
+  </div>
+
+  <!-- WEEKLY REVENUE BAR CHART -->
+  <div class="section" id="revenue">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+      Kolik vyděláváme každý týden (Kč s DPH)
+    </div>
+    <div class="chart-container">
+      <svg id="revenueBar" viewBox="0 0 840 360" style="width:100%;max-width:840px"></svg>
+    </div>
+  </div>
+
+  <!-- TOP 20 PRODUCTS -->
+  <div class="section" id="products">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
+      Naše nejprodávanější produkty
+    </div>
+    <div class="two-col" style="align-items:start">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)" id="top20-qty-title">Podle počtu prodaných kusů</div>
+        <div id="top20-qty-bars"></div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)" id="top20-rev-title">Podle tržeb (Kč)</div>
+        <div id="top20-rev-bars"></div>
       </div>
     </div>
-  </header>
+  </div>
 
-  <!-- Content -->
-  <main class="flex-1 px-4 sm:px-6 py-6 space-y-6 max-w-[1400px] w-full mx-auto" id="kpi">
-
-    <!-- KPI CARDS -->
-    <section>
-      <h2 class="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-widest mb-3">Klíčové ukazatele &middot; 01/2026 – 04/2026</h2>
-      <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
-
-        <div class="kpi-card bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-          <div class="flex items-start justify-between mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center" style="background:#F9F0F9;">
-              <svg class="w-5 h-5" style="color:#4A154B" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 000 7h5a3.5 3.5 0 010 7H6"/></svg>
-            </div>
-            <span class="text-xs text-gray-400 dark:text-gray-500 font-medium bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">celkové</span>
-          </div>
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">48,1 mil. Kč</div>
-          <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Celkové tržby</div>
-          <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">aktivní objednávky</div>
-        </div>
-
-        <div class="kpi-card bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-          <div class="flex items-start justify-between mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-amber-50 dark:bg-amber-900/20">
-              <svg class="w-5 h-5 text-amber-600 dark:text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
-            </div>
-            <span class="text-xs text-gray-400 dark:text-gray-500 font-medium bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">994 storno</span>
-          </div>
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">33 006</div>
-          <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Počet objednávek</div>
-          <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">aktivních objednávek</div>
-        </div>
-
-        <div class="kpi-card bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-          <div class="flex items-start justify-between mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/20">
-              <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
-            </div>
-            <span class="text-xs text-gray-400 dark:text-gray-500 font-medium bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">průměr</span>
-          </div>
-          <div class="text-2xl font-bold text-gray-900 dark:text-white">1 457 Kč</div>
-          <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">Průměrná objednávka</div>
-          <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">průměrná hodnota košíku</div>
-        </div>
-
-        <div class="kpi-card bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-5">
-          <div class="flex items-start justify-between mb-3">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center bg-purple-50 dark:bg-purple-900/20">
-              <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-            </div>
-            <span class="inline-flex items-center gap-1 bg-purple-50 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 text-xs font-semibold px-2 py-1 rounded-full">#1</span>
-          </div>
-          <div class="text-lg font-bold text-gray-900 dark:text-white leading-tight">Fytogel Slaviton</div>
-          <div class="text-sm text-gray-500 dark:text-gray-400 mt-1">TOP produkt</div>
-          <div class="text-xs text-gray-400 dark:text-gray-500 mt-2">11 656 ks &nbsp;·&nbsp; 3,0 mil. Kč</div>
-        </div>
-
+  <!-- PAYMENT METHODS -->
+  <div class="section" id="payments">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
+      Jak zákazníci platí
+    </div>
+    <div class="two-col" style="align-items:start">
+      <div class="donut-wrapper" style="justify-content:flex-start;gap:32px">
+        <svg id="paymentDonut" viewBox="0 0 200 200" width="200" height="200"></svg>
+        <div class="donut-stats" id="paymentStats"></div>
       </div>
-    </section>
-
-    <!-- WEEKLY REVENUE BAR CHART -->
-    <section id="revenue" class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white mb-5">
-        <svg class="w-5 h-5 text-[#4A154B] dark:text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-        Kolik vyděláváme každý týden (Kč s DPH)
-      </h2>
-      <div class="w-full overflow-x-auto">
-        <svg id="revenueBar" viewBox="0 0 840 360" style="width:100%;max-width:840px;display:block;margin:0 auto"></svg>
-      </div>
-    </section>
-
-    <!-- TOP 20 PRODUCTS -->
-    <section id="products" class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white mb-5">
-        <svg class="w-5 h-5 text-[#4A154B] dark:text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-        Naše nejprodávanější produkty
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <div>
-          <div class="font-bold text-sm mb-3 text-[#4A154B] dark:text-purple-400" id="top20-qty-title">Podle počtu prodaných kusů</div>
-          <div id="top20-qty-bars"></div>
-        </div>
-        <div>
-          <div class="font-bold text-sm mb-3 text-[#4A154B] dark:text-purple-400" id="top20-rev-title">Podle tržeb (Kč)</div>
-          <div id="top20-rev-bars"></div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PAYMENT METHODS -->
-    <section id="payments" class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white mb-5">
-        <svg class="w-5 h-5 text-[#4A154B] dark:text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-        Jak zákazníci platí
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
-        <div class="donut-wrapper" style="justify-content:flex-start;gap:32px">
-          <svg id="paymentDonut" viewBox="0 0 200 200" width="200" height="200"></svg>
-          <div class="donut-stats" id="paymentStats"></div>
-        </div>
-        <div class="overflow-x-auto">
-          <table class="data-table">
-            <thead>
-              <tr><th>Způsob platby</th><th>Objednávky</th><th>Podíl</th><th>Tržby</th></tr>
-            </thead>
-            <tbody id="paymentTableBody"></tbody>
-            <tfoot>
-              <tr><td>CELKEM</td><td id="paymentTotalCount"></td><td>100,0 %</td><td id="paymentTotalRev"></td></tr>
-            </tfoot>
-          </table>
-        </div>
-      </div>
-    </section>
-
-    <!-- WEEKLY DETAIL TABLE -->
-    <section id="weektable" class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white mb-5">
-        <svg class="w-5 h-5 text-[#4A154B] dark:text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
-        Detailní týdenní tabulka
-      </h2>
-      <div class="overflow-x-auto">
+      <div style="overflow-x:auto">
         <table class="data-table">
           <thead>
-            <tr><th>Týden</th><th>Datum</th><th>Objednávky</th><th>Tržby</th><th>Prům. košík</th><th>Podíl tržeb</th></tr>
+            <tr><th>Způsob platby</th><th>Objednávky</th><th>Podíl</th><th>Tržby</th></tr>
           </thead>
-          <tbody id="weekTableBody"></tbody>
+          <tbody id="paymentTableBody"></tbody>
           <tfoot>
-            <tr><td>CELKEM</td><td></td><td id="weekTotalCount"></td><td id="weekTotalRev"></td><td id="weekAvgOrder"></td><td>100,0 %</td></tr>
+            <tr><td>CELKEM</td><td id="paymentTotalCount"></td><td>100,0 %</td><td id="paymentTotalRev"></td></tr>
           </tfoot>
         </table>
       </div>
-    </section>
-
-    <!-- TOP 25 CUSTOMERS -->
-    <section id="top-zakaznici" class="bg-white dark:bg-gray-800 rounded-2xl border border-gray-200 dark:border-gray-700 p-6">
-      <h2 class="flex items-center gap-2 text-base font-bold text-gray-900 dark:text-white mb-5">
-        <svg class="w-5 h-5 text-[#4A154B] dark:text-purple-400 flex-shrink-0" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-        Naši největší zákazníci — obrat 2026
-      </h2>
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-6 items-start mb-7">
-        <div>
-          <div class="font-bold text-sm mb-3 text-[#4A154B] dark:text-purple-400">Celkový obrat (Kč s DPH)</div>
-          <div id="top25-rev-bars"></div>
-        </div>
-        <div>
-          <div class="font-bold text-sm mb-3 text-[#4A154B] dark:text-purple-400">Počet objednávek</div>
-          <div id="top25-ord-bars"></div>
-        </div>
-      </div>
-      <div class="overflow-x-auto">
-        <table class="data-table">
-          <thead>
-            <tr>
-              <th>#</th>
-              <th>Jméno / Firma</th>
-              <th>Počet obj.</th>
-              <th>Celkový obrat (Kč)</th>
-              <th>Průměrná objednávka (Kč)</th>
-            </tr>
-          </thead>
-          <tbody id="top25TableBody"></tbody>
-        </table>
-      </div>
-      <div class="mt-3 text-xs text-gray-400 dark:text-gray-500">
-        * Zahrnuje pouze aktivní (nestornované) objednávky od 01.01.2026. E-mailové adresy jsou anonymizovány.
-      </div>
-    </section>
-
-    <!-- Footer -->
-    <div class="text-center py-4 text-xs text-gray-400 dark:text-gray-500">
-      Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 06.04.2026
     </div>
+  </div>
 
-  </main>
+  <!-- WEEKLY DETAIL TABLE -->
+  <div class="section" id="weektable">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
+      Detailní týdenní tabulka
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr><th>Týden</th><th>Datum</th><th>Objednávky</th><th>Tržby</th><th>Prům. košík</th><th>Podíl tržeb</th></tr>
+        </thead>
+        <tbody id="weekTableBody"></tbody>
+        <tfoot>
+          <tr><td>CELKEM</td><td></td><td id="weekTotalCount"></td><td id="weekTotalRev"></td><td id="weekAvgOrder"></td><td>100,0 %</td></tr>
+        </tfoot>
+      </table>
+    </div>
+  </div>
+
+  <!-- TOP 25 CUSTOMERS -->
+  <div class="section" id="top-zakaznici">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+      Naši největší zákazníci — obrat 2026
+    </div>
+    <div class="two-col" style="align-items:start;margin-bottom:28px">
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)">Celkový obrat (Kč s DPH)</div>
+        <div id="top25-rev-bars"></div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:14px;margin-bottom:14px;color:var(--brand)">Počet objednávek</div>
+        <div id="top25-ord-bars"></div>
+      </div>
+    </div>
+    <div style="overflow-x:auto">
+      <table class="data-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Jméno / Firma</th>
+            <th>Počet obj.</th>
+            <th>Celkový obrat (Kč)</th>
+            <th>Průměrná objednávka (Kč)</th>
+          </tr>
+        </thead>
+        <tbody id="top25TableBody"></tbody>
+      </table>
+    </div>
+    <div style="margin-top:12px;font-size:11.5px;color:var(--text-muted)">
+      * Zahrnuje pouze aktivní (nestornované) objednávky od 01.01.2026. E-mailové adresy jsou anonymizovány.
+    </div>
+  </div>
+
+  <div style="text-align:center;padding:24px 0 12px;font-size:12px;color:var(--text-muted);">
+    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 06.04.2026
+  </div>
 </div>
 
 <script>
@@ -521,7 +627,7 @@ const payments = [
   {name:"Dobírkou",count:5205,revenue:7217153},
   {name:"Platba kartou",count:359,revenue:700021},
   {name:"Hotově",count:225,revenue:288124},
-  {name:"Twisto – zaplať później",count:41,revenue:156258},
+  {name:"Twisto – zaplať později",count:41,revenue:156258},
   {name:"Twisto – na třetiny",count:27,revenue:98314},
   {name:"Faktura",count:8,revenue:18109},
   {name:"PayPal",count:4,revenue:91},
@@ -566,10 +672,10 @@ function fmtCZK(v) {
   return fmtN(v) + '\u00a0Kč';
 }
 function getTC() {
-  return document.documentElement.classList.contains('dark') ? '#9ca3af' : '#6b7280';
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#9ca3af' : '#6b7280';
 }
 function getGC() {
-  return document.documentElement.classList.contains('dark') ? '#374151' : '#e5e7eb';
+  return document.documentElement.getAttribute('data-theme') === 'dark' ? '#2d2f3a' : '#e5e7eb';
 }
 
 // ── Bar Chart (Revenue by Week) ──────────────────────────────────────────────────
@@ -731,7 +837,7 @@ function buildTop25() {
   drawHBars('top25-rev-bars', top25customers, top25customers[0].revenue,
     d => d.revenue, d => fmtCZK(d.revenue));
 
-  // Orders bars
+  // Orders bars (reuse drawHBars with orders field)
   const maxOrders = Math.max(...top25customers.map(d => d.orders));
   const ordEl = document.getElementById('top25-ord-bars');
   ordEl.innerHTML = top25customers.map((d, i) => {
@@ -781,30 +887,36 @@ function drawAll() {
 
 drawAll();
 
-// ── Dark Mode ─────────────────────────────────────────────────────────────────────
-function toggleDark() {
-  document.documentElement.classList.toggle('dark');
+// ── Theme ─────────────────────────────────────────────────────────────────────────
+function toggleTheme() {
+  const d = document.documentElement;
+  d.setAttribute('data-theme', d.getAttribute('data-theme') === 'dark' ? '' : 'dark');
   drawAll();
 }
 
-// ── Sidebar (mobile) ──────────────────────────────────────────────────────────────
+// ── Sidebar ───────────────────────────────────────────────────────────────────────
 function toggleSidebar() {
-    const s = document.getElementById('sidebar');
-    const o = document.getElementById('overlay');
-    const isOpen = s.classList.contains('open');
-    if (isOpen) {
-      s.classList.remove('open');
-      if (o) o.classList.add('hidden');
-    } else {
-      s.classList.add('open');
-      if (o) o.classList.remove('hidden');
-    }
-  }
-
-function closeSidebar() {
-  document.getElementById('sidebar').classList.add('-translate-x-full');
-  document.getElementById('overlay').classList.add('hidden');
+  document.getElementById('sidebar').classList.toggle('open');
+  document.querySelector('.overlay').classList.toggle('show');
 }
+
+// ── Active Nav on Scroll ──────────────────────────────────────────────────────────
+const sections = document.querySelectorAll('.section[id], .header[id]');
+const navLinks = document.querySelectorAll('.sidebar-nav a');
+window.addEventListener('scroll', () => {
+  let current = '';
+  sections.forEach(s => {
+    if (window.scrollY >= s.offsetTop - 120) current = s.id;
+  });
+  navLinks.forEach(a => {
+    a.classList.remove('active');
+    if (a.getAttribute('href') === '#' + current) a.classList.add('active');
+  });
+});
+
+// Default dark mode
+document.documentElement.setAttribute('data-theme', 'dark');
+drawAll();
 </script>
 </body>
 </html>
