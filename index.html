@@ -21,7 +21,7 @@
   --sidebar-w: 260px;
   --radius: 12px;
 }
-[data-theme="dark"] {
+[] {
   --bg: #0f1117;
   --card: #1a1c25;
   --text: #e4e4e7;
@@ -155,7 +155,7 @@ body {
 /* HEADER */
 .header { margin-bottom: 32px; }
 .header h1 { font-size: 26px; font-weight: 700; color: var(--brand); }
-[data-theme="dark"] .header h1 { color: var(--brand-light); }
+[] .header h1 { color: var(--brand-light); }
 .header .period { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
 .header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
 .theme-toggle {
@@ -212,7 +212,7 @@ body {
   gap: 10px;
 }
 .section-title svg { width: 20px; height: 20px; color: var(--brand); }
-[data-theme="dark"] .section-title svg { color: var(--brand-light); }
+[] .section-title svg { color: var(--brand-light); }
 /* CHART */
 .chart-container { width: 100%; overflow-x: auto; }
 .chart-container svg { display: block; margin: 0 auto; }
@@ -305,9 +305,9 @@ body {
 }
 .data-table tbody td:first-child { text-align: left; }
 .data-table tbody tr:hover { background: rgba(92,36,80,.04); }
-[data-theme="dark"] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
+[] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
 .data-table tbody tr.total-row td { font-weight: 700; background: rgba(92,36,80,.06); }
-[data-theme="dark"] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
+[] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
 .data-table tfoot td { font-weight: 700; padding: 11px 14px; text-align: right; }
 .data-table tfoot td:first-child { text-align: left; }
 /* RANK BADGE */
@@ -340,6 +340,9 @@ body {
     
 .table-wrap, table { max-width: 100%; }
 .table-wrap { overflow-x: auto; }
+
+/* Sidebar font unification */
+aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-size: 13px !important; }
 </style>
 </head>
 <body>
@@ -919,7 +922,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Default dark mode
-document.documentElement.setAttribute('data-theme', 'dark');
+/* light mode default */;
 drawAll();
 </script>
 </body>
