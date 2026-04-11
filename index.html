@@ -411,7 +411,7 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     <div class="header-row">
       <div>
         <h1>E-shop přehled — Diamond Plus</h1>
-        <div class="period">Období: 04.01.2026 – 06.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
+        <div class="period">Období: 01.01.2026 – 10.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -424,23 +424,23 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
   <div class="kpi-grid">
     <div class="kpi-card purple">
       <div class="kpi-label">Celkové tržby</div>
-      <div class="kpi-value">51.4 mil. Kč</div>
+      <div class="kpi-value">51.7 mil. Kč</div>
       <div class="kpi-sub">01/2026 – 04/2026 (aktivní objednávky)</div>
     </div>
     <div class="kpi-card gold">
       <div class="kpi-label">Počet objednávek</div>
-      <div class="kpi-value">35 356</div>
-      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 1 063 stornovaných</div>
+      <div class="kpi-value">35 574</div>
+      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 1 078 stornovaných</div>
     </div>
     <div class="kpi-card green">
       <div class="kpi-label">Průměrná objednávka</div>
-      <div class="kpi-value">1 452 Kč</div>
+      <div class="kpi-value">1 454 Kč</div>
       <div class="kpi-sub">průměrná hodnota košíku</div>
     </div>
     <div class="kpi-card red">
       <div class="kpi-label">TOP produkt</div>
       <div class="kpi-value" style="font-size:18px;line-height:1.3">Fytogel Slaviton</div>
-      <div class="kpi-sub">12 516 ks prodáno &nbsp;|&nbsp; 3.2 mil. Kč</div>
+      <div class="kpi-sub">12 632 ks prodáno &nbsp;|&nbsp; 3.2 mil. Kč</div>
     </div>
   </div>
 
@@ -560,114 +560,112 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
 <script>
 // ── Data ────────────────────────────────────────────────────────────────────────
 const weekly = [
-  {week:"2026-W01",revenue:1009892,count:789},
-  {week:"2026-W02",revenue:3610463,count:2462},
-  {week:"2026-W03",revenue:4001809,count:2446},
-  {week:"2026-W04",revenue:3084967,count:2161},
-  {week:"2026-W05",revenue:3390072,count:2352},
-  {week:"2026-W06",revenue:3702398,count:2742},
-  {week:"2026-W07",revenue:3904096,count:2571},
-  {week:"2026-W08",revenue:3802527,count:2596},
-  {week:"2026-W09",revenue:3725012,count:2645},
-  {week:"2026-W10",revenue:4161496,count:3067},
-  {week:"2026-W11",revenue:3982989,count:2568},
-  {week:"2026-W12",revenue:4014635,count:2670},
-  {week:"2026-W13",revenue:3142986,count:2152},
-  {week:"2026-W14",revenue:3306439,count:2386},
-  {week:"2026-W15",revenue:2523278,count:1749}
+  {week:"2026-W01",revenue:1015359,count:793},
+  {week:"2026-W02",revenue:3616542,count:2463},
+  {week:"2026-W03",revenue:3998052,count:2446},
+  {week:"2026-W04",revenue:3080446,count:2158},
+  {week:"2026-W05",revenue:3391516,count:2353},
+  {week:"2026-W06",revenue:3698727,count:2740},
+  {week:"2026-W07",revenue:3903120,count:2571},
+  {week:"2026-W08",revenue:3804493,count:2597},
+  {week:"2026-W09",revenue:3730394,count:2646},
+  {week:"2026-W10",revenue:4157349,count:3067},
+  {week:"2026-W11",revenue:3984376,count:2567},
+  {week:"2026-W12",revenue:4011101,count:2670},
+  {week:"2026-W13",revenue:3153262,count:2158},
+  {week:"2026-W14",revenue:3285297,count:2368},
+  {week:"2026-W15",revenue:2910301,count:1977},
 ];
 
-const weekLabels = [
-  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01","W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02","W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03","W13\n23–29.03","W14\n30.03–05.04","W15\n06–12.04*"
-];
+const weekLabels = ["W01\n29.12–04.01", "W02\n05.01–11.01", "W03\n12.01–18.01", "W04\n19.01–25.01", "W05\n26.01–01.02", "W06\n02.02–08.02", "W07\n09.02–15.02", "W08\n16.02–22.02", "W09\n23.02–01.03", "W10\n02.03–08.03", "W11\n09.03–15.03", "W12\n16.03–22.03", "W13\n23.03–29.03", "W14\n30.03–05.04", "W15\n06.04–12.04*"];
 
 const top20qty = [
-  {name:"Fytogel Slaviton",qty:12516},
-  {name:"Jemný intimní gel",qty:9589},
-  {name:"Dámské bylinné slipové vložky s anionty ",qty:9548},
-  {name:"Instantní nápoj s čekankou a L-karnitine",qty:8352},
-  {name:"Denní vložky s extraktem aloe Nefritová ",qty:8243},
-  {name:"Dámské bylinné menstruační vložky Nefrit",qty:8228},
-  {name:"Kosmetická fytonáplast Wutong (Počet kus",qty:7994},
-  {name:"Dámské bylinné slipové vložky Nefritová ",qty:7053},
-  {name:"Kosmetická fytonáplast Jian Kang (Počet ",qty:6783},
-  {name:"Denní vložka Energie života (Počet kusů:",qty:6026},
-  {name:"Tající kolagenová liftingová pleťová mas",qty:5967},
-  {name:"Denní menstruační vložky s fytomembránou",qty:5576},
+  {name:"Fytogel Slaviton",qty:12632},
+  {name:"Kosmetická fytonáplast Wutong (Počet kusů: 1ks)",qty:9874},
+  {name:"Jemný intímny gél",qty:9682},
+  {name:"Dámské bylinné slipové vložky s anionty Nefritová",qty:9617},
+  {name:"Instantní nápoj s čekankou a L-karnitinem",qty:8352},
+  {name:"Denní vložky s extraktem aloe Nefritová svěžest",qty:8286},
+  {name:"Dámské bylinné menstruační vložky Nefritová svěžes",qty:8281},
+  {name:"Kosmetická fytonáplast Jian Kang (Počet kusů: 5ks)",qty:8120},
+  {name:"Denní vložka Energie života (Počet kusů: 10ks)",qty:8070},
+  {name:"Dámské bylinné slipové vložky Nefritová svěžest",qty:7101},
+  {name:"Denná hygienická slipová vložka „Jemná starostlivosť"",qty:6163},
+  {name:"Topiaca sa kolagénová liftingová maska na tvár",qty:6011},
+  {name:"Denní menstruační vložky s fytomembránou „Energie bylin"",qty:5607},
   {name:"Brožura typy pleti",qty:5380},
-  {name:"Noviny  zpravodaj",qty:5014},
-  {name:"Dámské bylinné menstruační vložky Nefrit",qty:4777},
-  {name:"Brožúra Fytogely (Kód: 000075)",qty:4453},
-  {name:"Brožura Čistá domácnost",qty:4377},
-  {name:"Dámské bylinné slipové vložky Nefritová ",qty:4239},
-  {name:"Denní vložky s fytomembránou „Energie by",qty:4153},
-  {name:"Slipové vložky se stříbrem. super tenké",qty:4032}
+  {name:"Noviny zpravodaj",qty:5024},
+  {name:"Dámské bylinné menstruační vložky Nefritová svěžest (2. typ)",qty:4798},
+  {name:"Regenerační krém na nohy s hadím olejem",qty:4619},
+  {name:"Brožúra Fytogely",qty:4548},
+  {name:"Brožúra Čistá domácnosť",qty:4377},
+  {name:"Levandulová náplast na nohy (Počet kusů: 10ks)",qty:4348},
 ];
 
 const top20rev = [
-  {name:"Fytogel Slaviton",rev:3218807},
-  {name:"Jemný intimní gel",rev:2273254},
-  {name:"Kolagen s višňovou a granátovou šťávou (",rev:1014729},
-  {name:"Dámské bylinné menstruační vložky Nefrit",rev:1000503},
-  {name:"Funkčný komplex Citrokalcevit",rev:861648},
-  {name:"Denní vložky s extraktem aloe Nefritová ",rev:854645},
-  {name:"Kosmetická fytonáplast Wutong (Počet kus",rev:852750},
-  {name:"Denní menstruační vložky s fytomembránou",rev:825611},
-  {name:"Modelující gel na tvar obličeje",rev:788690},
-  {name:"Mycí prostředek na nádobí na bázi plodů ",rev:775983},
-  {name:"Kosmetická fytonáplast Jian Kang (Počet ",rev:738610},
-  {name:"Dámské bylinné slipové vložky Nefritová ",rev:736226},
-  {name:"Zpevňující a liftingová emulze na obliče",rev:722458},
-  {name:"Dámské bylinné slipové vložky s anionty ",rev:635302},
-  {name:"Denní vložky s fytomembránou „Energie by",rev:576394},
-  {name:"Dámské bylinné menstruační vložky Nefrit",rev:573854},
-  {name:"Masážní gel Orthophyt (Kód: 34401-2)",rev:547804},
-  {name:"Následná terapie včetně nahrání čipu (Kó",rev:531850},
-  {name:"Glutatione complex",rev:526315},
-  {name:"Regenerační sérum v kapslích",rev:470198}
+  {name:"Fytogel Slaviton",rev:3249658},
+  {name:"Jemný intímny gél",rev:2295596},
+  {name:"Kosmetická fytonáplast Wutong (Počet kusů: 1ks)",rev:1596769},
+  {name:"Kosmetická fytonáplast Jian Kang (Počet kusů: 5ks)",rev:1256631},
+  {name:"Kolagén so šťavou z čerešní a granátového jablka",rev:1030560},
+  {name:"Dámské bylinné menstruační vložky Nefritová svěžest",rev:1007965},
+  {name:"Náplast na nohy (Počet kusů: 1ks)",rev:878873},
+  {name:"Funkční komplex Citrokalcevit",rev:866973},
+  {name:"Denní vložky s extraktem aloe Nefritová svěžest",rev:859219},
+  {name:"Denní vložka Energie života (Počet kusů: 10ks)",rev:848362},
+  {name:"Denní menstruační vložky s fytomembránou „Energie bylin"",rev:830695},
+  {name:"Modelující gel na tvar obličeje",rev:794777},
+  {name:"Mycí prostředek na nádobí na bázi plodů Mýdelníku",rev:780811},
+  {name:"Dámské bylinné slipové vložky Nefritová svěžest",rev:742414},
+  {name:"Zpevňující a liftingová emulze na obličej a krk",rev:727373},
+  {name:"Dámské bylinné slipové vložky s anionty Nefritová svěžest",rev:639923},
+  {name:"Denná hygienická slipová vložka „Jemná starostlivosť"",rev:638309},
+  {name:"Levandulová náplast na nohy (Počet kusů: 10ks)",rev:626043},
+  {name:"Denní vložky s fytomembránou „Energie bylin"",rev:581910},
+  {name:"Dámské bylinné menstruační vložky Nefritová svěžest (2. typ)",rev:576741},
 ];
 
 const payments = [
-  {name:"Bezpečná platba online",count:17466,revenue:24511504},
-  {name:"Platba převodem",count:9670,revenue:15107133},
-  {name:"Dobírkou",count:5205,revenue:7217153},
-  {name:"Platba kartou",count:359,revenue:700021},
-  {name:"Hotově",count:225,revenue:288124},
-  {name:"Twisto – zaplať později",count:41,revenue:156258},
-  {name:"Twisto – na třetiny",count:27,revenue:98314},
+  {name:"Bezpečná platba online",count:18778,revenue:26305304},
+  {name:"Platba převodem",count:10452,revenue:16302339},
+  {name:"Dobírkou",count:5652,revenue:7808395},
+  {name:"Platba kartou",count:372,revenue:735948},
+  {name:"Hotově",count:236,revenue:304685},
+  {name:"Twisto - kup teď, zaplať později",count:43,revenue:163882},
+  {name:"Twisto - kup teď, zaplať na třetiny",count:28,revenue:101584},
   {name:"Faktura",count:8,revenue:18109},
   {name:"PayPal",count:4,revenue:91},
-  {name:"Neznámá",count:1,revenue:0}
+  {name:"Neznámá",count:1,revenue:0},
 ];
 
 const COLORS = ['#5C2450','#e6a817','#22c55e','#6366f1','#ef4444','#f59e0b','#06b6d4','#8b5cf6','#ec4899','#9ca3af'];
 
 const top25customers = [
-  {"name":"Maloobchodní prodej","email_anon":"—","orders":175,"revenue":416593,"avg_order":2380},
-  {"name":"info@energieprirody.cz","email_anon":"i***@e*************.cz","orders":39,"revenue":177091,"avg_order":4540},
+  {"name":"Maloobchodní prodej","email_anon":"—","orders":175,"revenue":416593,"avg_order":2381},
+  {"name":"info@energieprirody.cz","email_anon":"i***@e*************.cz","orders":39,"revenue":177091,"avg_order":4541},
   {"name":"adamcechner@gmail.com","email_anon":"a**********@g****.com","orders":43,"revenue":117012,"avg_order":2721},
-  {"name":"ivanakunes@seznam.cz","email_anon":"i*********@s*****.cz","orders":46,"revenue":52609,"avg_order":1143},
+  {"name":"ivanakunes@seznam.cz","email_anon":"i*********@s*****.cz","orders":47,"revenue":53697,"avg_order":1142},
   {"name":"rivox@volny.cz","email_anon":"r****@v****.cz","orders":9,"revenue":49358,"avg_order":5484},
-  {"name":"nati.sz@email.cz","email_anon":"n******@e****.cz","orders":20,"revenue":46733,"avg_order":2336},
-  {"name":"domoradova@kidpro.cz","email_anon":"d*********@k*****.cz","orders":18,"revenue":36639,"avg_order":2035},
+  {"name":"nati.sz@email.cz","email_anon":"n******@e****.cz","orders":20,"revenue":46733,"avg_order":2337},
+  {"name":"domoradova@kidpro.cz","email_anon":"d*********@k*****.cz","orders":18,"revenue":36639,"avg_order":2036},
   {"name":"ivana.rajsiglova@post.cz","email_anon":"i***************@p***.cz","orders":11,"revenue":35388,"avg_order":3217},
-  {"name":"milusedubska@seznam.cz","email_anon":"m***********@s*****.cz","orders":16,"revenue":34588,"avg_order":2161},
-  {"name":"mgr.vendulascheichlova@seznam.cz","email_anon":"m*********************@s*****.cz","orders":18,"revenue":34405,"avg_order":1911},
-  {"name":"danka.pokorna1@seznam.cz","email_anon":"d*************@s*****.cz","orders":10,"revenue":34389,"avg_order":3438},
+  {"name":"Mgr.vendulascheichlova@seznam.cz","email_anon":"M*********************@s*****.cz","orders":19,"revenue":35236,"avg_order":1855},
+  {"name":"milusedubska@seznam.cz","email_anon":"m***********@s*****.cz","orders":16,"revenue":34589,"avg_order":2162},
+  {"name":"danka.pokorna1@seznam.cz","email_anon":"d*************@s*****.cz","orders":10,"revenue":34389,"avg_order":3439},
   {"name":"typivet@seznam.cz","email_anon":"t******@s*****.cz","orders":9,"revenue":31684,"avg_order":3520},
-  {"name":"l.sperlingova@seznam.cz","email_anon":"l************@s*****.cz","orders":14,"revenue":30266,"avg_order":2161},
+  {"name":"l.sperlingova@seznam.cz","email_anon":"l************@s*****.cz","orders":14,"revenue":30266,"avg_order":2162},
   {"name":"k.sabelova@seznam.cz","email_anon":"k*********@s*****.cz","orders":9,"revenue":30097,"avg_order":3344},
-  {"name":"andrea.svitakova@seznam.cz","email_anon":"a***************@s*****.cz","orders":17,"revenue":28618,"avg_order":1683},
+  {"name":"andrea.svitakova@seznam.cz","email_anon":"a***************@s*****.cz","orders":17,"revenue":28619,"avg_order":1683},
   {"name":"maricek56@seznam.cz","email_anon":"m********@s*****.cz","orders":11,"revenue":27940,"avg_order":2540},
   {"name":"doletka2@seznam.cz","email_anon":"d*******@s*****.cz","orders":8,"revenue":27106,"avg_order":3388},
-  {"name":"mir.kostkova@seznam.cz","email_anon":"m***********@s*****.cz","orders":10,"revenue":26815,"avg_order":2681},
-  {"name":"dana.schitkova@centrum.cz","email_anon":"d*************@c******.cz","orders":6,"revenue":26693,"avg_order":4448},
-  {"name":"mrazkova73@seznam.cz","email_anon":"m*********@s*****.cz","orders":28,"revenue":26645,"avg_order":951},
+  {"name":"mir.kostkova@seznam.cz","email_anon":"m***********@s*****.cz","orders":10,"revenue":26815,"avg_order":2682},
+  {"name":"dana.schitkova@centrum.cz","email_anon":"d*************@c******.cz","orders":6,"revenue":26693,"avg_order":4449},
+  {"name":"mrazkova73@seznam.cz","email_anon":"m*********@s*****.cz","orders":28,"revenue":26645,"avg_order":952},
   {"name":"ala.tumova@centrum.cz","email_anon":"a*********@c******.cz","orders":11,"revenue":26599,"avg_order":2418},
   {"name":"veracech@seznam.cz","email_anon":"v*******@s*****.cz","orders":15,"revenue":26195,"avg_order":1746},
   {"name":"sramkova_jana@seznam.cz","email_anon":"s************@s*****.cz","orders":11,"revenue":25663,"avg_order":2333},
   {"name":"dandy.25@seznam.cz","email_anon":"d*******@s*****.cz","orders":6,"revenue":25494,"avg_order":4249},
-  {"name":"blankasekyrkova@seznam.cz","email_anon":"b**************@s*****.cz","orders":13,"revenue":25493,"avg_order":1961}
+  {"name":"blankasekyrkova@seznam.cz","email_anon":"b**************@s*****.cz","orders":13,"revenue":25493,"avg_order":1961},
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────────
