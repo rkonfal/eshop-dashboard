@@ -402,7 +402,7 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     </a>
   </nav>
   <div class="sidebar-footer">
-    Vygenerováno 10.04.2026<br>
+    Vygenerováno 13.04.2026<br>
     WPJ Shop API · Království TianDe
   </div>
 </aside>
@@ -413,7 +413,7 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     <div class="header-row">
       <div>
         <h1>E-shop přehled — Diamond Plus</h1>
-        <div class="period">Období: 04.01.2026 – 06.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
+        <div class="period">Období: 04.01.2026 – 13.04.2026 &nbsp;|&nbsp; 16 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -562,7 +562,7 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
     Meziroční porovnání 2025 vs 2026
   </div>
-  <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Stejné období: leden–10. dubna 2025 vs leden–10. dubna 2026</div>
+  <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Stejné období: leden–13. dubna 2025 vs leden–13. dubna 2026</div>
 
   <!-- KPI cards -->
   <div class="kpi-grid" id="yoy-kpi"></div>
@@ -592,7 +592,7 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
   </div>
 
   <div style="text-align:center;padding:24px 0 12px;font-size:12px;color:var(--text-muted);">
-    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 10.04.2026
+    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 13.04.2026
   </div>
 </div>
 
@@ -613,11 +613,12 @@ const weekly = [
   {week:"2026-W12",revenue:4014635,count:2670},
   {week:"2026-W13",revenue:3142986,count:2152},
   {week:"2026-W14",revenue:3306439,count:2386},
-  {week:"2026-W15",revenue:2523278,count:1749}
+  {week:"2026-W15",revenue:3714339,count:2493},
+  {week:"2026-W16",revenue:158210,count:89}
 ];
 
 const weekLabels = [
-  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01","W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02","W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03","W13\n23–29.03","W14\n30.03–05.04","W15\n06–12.04*"
+  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01","W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02","W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03","W13\n23–29.03","W14\n30.03–05.04","W15\n06–12.04","W16\n13–19.04*"
 ];
 
 const top20qty = [
@@ -924,22 +925,20 @@ const yoyMonths = [
   {label:'Leden',   m25:{count:11988, rev:15765609}, m26:{count:9859,  rev:14640524}},
   {label:'Únor',    m25:{count:12600, rev:16357334}, m26:{count:10356, rev:14764034}},
   {label:'Březen',  m25:{count:12892, rev:16414183}, m26:{count:11832, rev:17230064}},
-  {label:'Duben*',  m25:{count:5452,  rev:7528831},  m26:{count:2942,  rev:4139470}},
+  {label:'Duben*',  m25:{count:5452,  rev:7528831},  m26:{count:3803,  rev:5524371}},
 ];
-// April 2025 partial: proportional to 10/30 days of full April (13469 orders, 18708141 rev)
-// Using actual Jan-Apr10 for fair comparison: Apr 1-10 2025 needs separate fetch
-// We'll use the raw fetched Apr totals but note it's full month vs 10 days
-// Recalculate: we fetched Apr 2025 full month (13469, 18708141) — need Jan1-Apr10 only
+// April 2025 partial: proportional to 13/30 days of full April (13469 orders, 18708141 rev)
+// Using actual Jan-Apr13 for fair comparison
 // For same-period YTD we use Jan+Feb+Mar + partial Apr
-// Apr 2025 full=13469, scaling 10/30 ≈ 4490 orders, 6236047 rev
+// Apr 2025 full=13469, scaling 13/30 ≈ 5836 orders, 8106461 rev
 const ytd25 = {
-  count: 11988 + 12600 + 12892 + Math.round(13469 * 10/30),
-  rev:   15765609 + 16357334 + 16414183 + Math.round(18708141 * 10/30)
+  count: 11988 + 12600 + 12892 + Math.round(13469 * 13/30),
+  rev:   15765609 + 16357334 + 16414183 + Math.round(18708141 * 13/30)
 };
-const ytd26 = {count: 9859+10356+11832+2942, rev: 14640524+14764034+17230064+4139470};
+const ytd26 = {count: 9859+10356+11832+3803, rev: 14640524+14764034+17230064+5524371};
 
 // Update display months with estimated Apr partial 2025
-yoyMonths[3].m25 = {count: Math.round(13469*10/30), rev: Math.round(18708141*10/30)};
+yoyMonths[3].m25 = {count: Math.round(13469*13/30), rev: Math.round(18708141*13/30)};
 
 function buildYoyKpi() {
   const pctCount = ((ytd26.count - ytd25.count) / ytd25.count * 100).toFixed(1);
