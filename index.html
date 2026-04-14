@@ -377,6 +377,10 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
       Přehled KPI
     </a>
+    <a href="#aktualni-prodeje">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      📊 Aktuální prodeje
+    </a>
     <a href="#revenue">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
       Tržby
@@ -458,6 +462,122 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
       <div style="font-weight:700;font-size:13px;color:#2B4ACB;margin-bottom:6px;">🏛 Souhrn pro Board</div>
       <div style="font-size:14px;color:#333;line-height:1.5;">E-shop generuje objemný tok objednávek, avšak growth story je oslabena stagnací průměrné hodnoty košíku. Klíčová rizika: koncentrace tržeb na jeden produkt a slabý start W16. Board by měl rozhodnout o strategii pro zvýšení průměrné objednávky a snížení závislosti na jednom titulu.</div>
       <div style="font-size:11px;color:#999;margin-top:8px;">Sestaveno k 13. 4. 2026</div>
+    </div>
+  </div>
+
+  <!-- AKTUÁLNÍ PRODEJE -->
+  <div class="section" id="aktualni-prodeje" style="margin-bottom:24px">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      📊 Aktuální prodeje
+    </div>
+    <div class="two-col" style="align-items:start;gap:24px">
+
+      <!-- LEFT: LAST 7 DAYS -->
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Posledních 7 dní (7.–13.4.2026)
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--brand)">
+            <div class="kpi-label">Tržby</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">4&nbsp;144&nbsp;340</div>
+            <div class="kpi-sub">Kč s DPH</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--accent)">
+            <div class="kpi-label">Objednávek</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">2&nbsp;704</div>
+            <div class="kpi-sub">aktivních</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--success)">
+            <div class="kpi-label">Prům. košík</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;533</div>
+            <div class="kpi-sub">Kč</div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Denní přehled</div>
+        <table class="data-table" style="font-size:12.5px">
+          <thead><tr>
+            <th style="text-align:left">Den</th>
+            <th>Tržby (Kč)</th>
+            <th>Obj.</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Út 7.4.</td><td>826&nbsp;413</td><td>615</td></tr>
+            <tr><td>St 8.4.</td><td>398&nbsp;537</td><td>266</td></tr>
+            <tr><td>Čt 9.4.</td><td>549&nbsp;380</td><td>344</td></tr>
+            <tr><td>Pá 10.4.</td><td>436&nbsp;296</td><td>270</td></tr>
+            <tr><td>So 11.4.</td><td>295&nbsp;102</td><td>189</td></tr>
+            <tr><td>Ne 12.4.</td><td>486&nbsp;404</td><td>309</td></tr>
+            <tr style="font-weight:700;background:rgba(92,36,80,.05)"><td>Po 13.4.</td><td>1&nbsp;152&nbsp;208</td><td>711</td></tr>
+            <tr class="total-row"><td><strong>Celkem</strong></td><td><strong>4&nbsp;144&nbsp;340</strong></td><td><strong>2&nbsp;704</strong></td></tr>
+          </tbody>
+        </table>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-top:16px;margin-bottom:8px">Top 5 produktů (tržby)</div>
+        <table class="data-table" style="font-size:12px">
+          <thead><tr>
+            <th style="text-align:left">#</th>
+            <th style="text-align:left">Produkt</th>
+            <th>Kč</th>
+          </tr></thead>
+          <tbody>
+            <tr><td><span class="rank gold">1</span></td><td>Fytogel Slaviton</td><td>297&nbsp;938</td></tr>
+            <tr><td><span class="rank silver">2</span></td><td>Jemný intimní gel</td><td>192&nbsp;279</td></tr>
+            <tr><td><span class="rank bronze">3</span></td><td>Fytonáplast Wutong</td><td>123&nbsp;471</td></tr>
+            <tr><td><span class="rank">4</span></td><td>Levandulová náplast na nohy</td><td>121&nbsp;661</td></tr>
+            <tr><td><span class="rank">5</span></td><td>Fytonáplast Jian Kang</td><td>98&nbsp;866</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RIGHT: MARCH 2026 -->
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Předchozí měsíc (březen 2026)
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--brand)">
+            <div class="kpi-label">Tržby</div>
+            <div style="font-size:19px;font-weight:800;margin:4px 0">17&nbsp;607&nbsp;126</div>
+            <div class="kpi-sub">Kč s DPH</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--accent)">
+            <div class="kpi-label">Objednávek</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">12&nbsp;081</div>
+            <div class="kpi-sub">aktivních</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--success)">
+            <div class="kpi-label">Prům. košík</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;457</div>
+            <div class="kpi-sub">Kč</div>
+          </div>
+        </div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Top 5 produktů (počet kusů)</div>
+        <table class="data-table" style="font-size:12px">
+          <thead><tr>
+            <th style="text-align:left">#</th>
+            <th style="text-align:left">Produkt</th>
+            <th>Ks</th>
+            <th>Tržby (Kč)</th>
+          </tr></thead>
+          <tbody>
+            <tr><td><span class="rank gold">1</span></td><td>Fytogel Slaviton</td><td>4&nbsp;412</td><td>1&nbsp;154&nbsp;387</td></tr>
+            <tr><td><span class="rank silver">2</span></td><td>Noviny / zpravodaj</td><td>3&nbsp;933</td><td>—</td></tr>
+            <tr><td><span class="rank bronze">3</span></td><td>Jemný intimní gel</td><td>3&nbsp;363</td><td>799&nbsp;380</td></tr>
+            <tr><td><span class="rank">4</span></td><td>Slipové vložky s anionty</td><td>3&nbsp;355</td><td>223&nbsp;908</td></tr>
+            <tr><td><span class="rank">5</span></td><td>Brožura Fytogely</td><td>3&nbsp;194</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <div style="margin-top:16px;padding:12px;background:rgba(92,36,80,.06);border-radius:8px;font-size:12.5px">
+          <strong>Porovnání:</strong> průměrná hodnota košíku 1&nbsp;457&nbsp;Kč v březnu odpovídá celoroční průměr. Denní průměr: <strong>567&nbsp;975&nbsp;Kč</strong> / <strong>390 obj.</strong> za den.
+        </div>
+        <div style="margin-top:10px;font-size:11.5px;color:var(--text-muted)">
+          Zdroj: WPJ Shop API · Data k 14. 4. 2026
+        </div>
+      </div>
+
     </div>
   </div>
 
