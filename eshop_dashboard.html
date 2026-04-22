@@ -30,7 +30,7 @@
   --brand-light: #9b6490;
 }
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+html { scroll-behavior: smooth; overflow-x: hidden; }
 body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
   background: var(--bg);
@@ -39,6 +39,7 @@ body {
   zoom: 1;
   min-height: 100vh;
   display: flex;
+  overflow-x: hidden;
 }
 /* SIDEBAR */
 .sidebar {
@@ -148,7 +149,8 @@ body {
   flex: 1;
   margin-left: var(--sidebar-w);
   padding: 32px 40px;
-  max-width: 1280px;
+  max-width: calc(100vw - 260px);
+  overflow-x: hidden;
 }
 /* HEADER */
 .header { margin-bottom: 32px; }
@@ -321,7 +323,7 @@ body {
   .sidebar.open { transform: translateX(0); }
   .hamburger { display: flex; }
   .overlay.show { display: block; }
-  .main { margin-left: 0; padding: 24px 18px; padding-top: 68px; }
+  .main { margin-left: 0; padding: 24px 18px; padding-top: 68px; max-width: 100vw; }
   .two-col { grid-template-columns: 1fr; }
 }
 @media (max-width: 600px) {
@@ -330,14 +332,21 @@ body {
 }
 @media print {
   .sidebar, .hamburger, .overlay, .theme-toggle { display: none !important; }
-  .main { margin-left: 0; padding: 20px; }
+  .main { margin-left: 0; padding: 20px; max-width: 100vw; }
   .section { break-inside: avoid; }
 }
         @media (max-width: 900px) {
         }
-    </style>
+    
+.table-wrap, table { max-width: 100%; }
+.table-wrap { overflow-x: auto; }
+
+/* Sidebar font unification */
+aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-size: 13px !important; }
+</style>
 </head>
 <body>
+
 <button class="hamburger" onclick="toggleSidebar()" aria-label="Menu">
   <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
 </button>
@@ -350,11 +359,19 @@ body {
 </div>
   <nav class="sidebar-reports">
     <a href="https://rkonfal.github.io/diamond-plus-portal/"><span class="report-emoji">🏠</span> Portál</a>
-    <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💎</span> Finanční Dashboard</a>
-    <a href="https://rkonfal.github.io/4px-obalovy-material/"><span class="report-emoji">📦</span> Obalový materiál</a>
-    <a href="https://rkonfal.github.io/4px-kpi-dashboard/"><span class="report-emoji">📊</span> Delivery KPI</a>
+    <a href="https://rkonfal.github.io/diamond-plus-report/"><span class="report-emoji">💰</span> Hospodaření</a>
+    <a href="https://rkonfal.github.io/inventory-dashboard/"><span class="report-emoji">📋</span> Sklad</a>
+    <a href="https://rkonfal.github.io/4px-kpi-dashboard/"><span class="report-emoji">📊</span> Expedice</a>
     <a href="https://rkonfal.github.io/4px-carriers/"><span class="report-emoji">🚚</span> Přepravci</a>
-    <a href="#" class="report-active"><span class="report-emoji">🛒</span> E-shop</a>
+    <a href="https://rkonfal.github.io/eshop-dashboard/" class="report-active"><span class="report-emoji">🛒</span> E-shop</a>
+    <a href="https://rkonfal.github.io/4px-obalovy-material/"><span class="report-emoji">📦</span> Obaly</a>
+    <a href="https://rkonfal.github.io/balicky-dashboard/"><span class="report-emoji">🎁</span> Balíčky</a>
+    <a href="https://rkonfal.github.io/skupiny-dashboard/"><span class="report-emoji">👥</span> Skupiny</a>
+    <a href="https://rkonfal.github.io/expirace-dashboard/"><span class="report-emoji">⏰</span> Expirace</a>
+    <a href="https://rkonfal.github.io/novi-zakaznici/"><span class="report-emoji">👤</span> Noví zákazníci</a>
+    <a href="https://rkonfal.github.io/reklamy-dashboard/"><span class="report-emoji">📢</span> Reklamy</a>
+    <a href="https://rkonfal.github.io/sms-dashboard/"><span class="report-emoji">📱</span> SMS</a>
+    <a href="https://rkonfal.github.io/klaviyo-dashboard/"><span class="report-emoji">📧</span> Klaviyo</a>
   </nav>
   <div class="sidebar-divider"></div>
   <nav class="sidebar-nav">
@@ -362,17 +379,21 @@ body {
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-4 0h4"/></svg>
       Přehled KPI
     </a>
+    <a href="#aktualni-prodeje">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      📊 Aktuální prodeje
+    </a>
     <a href="#revenue">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-      Tržby po týdnech
+      Tržby
     </a>
     <a href="#products">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-      TOP 20 produktů
+      Produkty
     </a>
     <a href="#payments">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      Způsoby plateb
+      Platby
     </a>
     <a href="#weektable">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18"/></svg>
@@ -382,9 +403,13 @@ body {
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
       TOP zákazníci
     </a>
+    <a href="#mezirocni">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+      Meziroční
+    </a>
   </nav>
   <div class="sidebar-footer">
-    Vygenerováno 06.04.2026<br>
+    Vygenerováno 14.04.2026<br>
     WPJ Shop API · Království TianDe
   </div>
 </aside>
@@ -395,7 +420,7 @@ body {
     <div class="header-row">
       <div>
         <h1>E-shop přehled — Diamond Plus</h1>
-        <div class="period">Období: 04.01.2026 – 06.04.2026 &nbsp;|&nbsp; 15 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
+        <div class="period">Období: 01.01.2026 – 14.04.2026 &nbsp;|&nbsp; 16 týdnů &nbsp;|&nbsp; Diamond Plus / Království TianDe</div>
       </div>
       <button class="theme-toggle" onclick="toggleTheme()">
         <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg>
@@ -408,23 +433,127 @@ body {
   <div class="kpi-grid">
     <div class="kpi-card purple">
       <div class="kpi-label">Celkové tržby</div>
-      <div class="kpi-value">48,1 mil. Kč</div>
+      <div class="kpi-value">53.9 mil. Kč</div>
       <div class="kpi-sub">01/2026 – 04/2026 (aktivní objednávky)</div>
     </div>
     <div class="kpi-card gold">
       <div class="kpi-label">Počet objednávek</div>
-      <div class="kpi-value">33 006</div>
-      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 994 stornovaných</div>
+      <div class="kpi-value">36 872</div>
+      <div class="kpi-sub">aktivních &nbsp;|&nbsp; 1 115 stornovaných</div>
     </div>
     <div class="kpi-card green">
       <div class="kpi-label">Průměrná objednávka</div>
-      <div class="kpi-value">1 457 Kč</div>
+      <div class="kpi-value">1 461 Kč</div>
       <div class="kpi-sub">průměrná hodnota košíku</div>
     </div>
     <div class="kpi-card red">
       <div class="kpi-label">TOP produkt</div>
       <div class="kpi-value" style="font-size:18px;line-height:1.3">Fytogel Slaviton</div>
-      <div class="kpi-sub">11 656 ks prodáno &nbsp;|&nbsp; 3,0 mil. Kč</div>
+      <div class="kpi-sub">12 896 ks prodáno | 3.32 mil. Kč</div>
+    </div>
+  </div>
+
+  <!-- MANAGEMENT COMMENTS -->
+  <div style="margin:24px 0;display:flex;gap:20px;flex-wrap:wrap;">
+    <div style="flex:1;min-width:320px;background:#FFF8E7;border-left:4px solid #D4A017;padding:16px 20px;border-radius:8px;">
+      <div style="font-weight:700;font-size:13px;color:#8B6914;margin-bottom:6px;">💼 Komentář ředitele — Obchodní</div>
+      <div style="font-size:14px;color:#333;line-height:1.5;">Tržby 52,7 M za Q1 jsou solidní výsledek, avšak průměrná hodnota objednávky 1 457 Kč stagnuje třetí kvartál po sobě. Týden W16 zatím nevykazuje zlepšení — sledujeme, zda jde o sezónní výkyv, nebo o strukturální problém. Fytogel Slaviton táhne přes 6 % tržeb z jediného SKU; výpadek tohoto produktu by byl okamžitě znatelný.</div>
+      <div style="font-size:11px;color:#999;margin-top:8px;">Obchodní ředitel (CCO) · 13. dubna 2026</div>
+    </div>
+    <div style="flex:1;min-width:320px;background:#F0F4FF;border-left:4px solid #3B5BDB;padding:16px 20px;border-radius:8px;">
+      <div style="font-weight:700;font-size:13px;color:#2B4ACB;margin-bottom:6px;">🏛 Souhrn pro Board</div>
+      <div style="font-size:14px;color:#333;line-height:1.5;">E-shop generuje objemný tok objednávek, avšak growth story je oslabena stagnací průměrné hodnoty košíku. Klíčová rizika: koncentrace tržeb na jeden produkt a slabý start W16. Board by měl rozhodnout o strategii pro zvýšení průměrné objednávky a snížení závislosti na jednom titulu.</div>
+      <div style="font-size:11px;color:#999;margin-top:8px;">Sestaveno k 13. 4. 2026</div>
+    </div>
+  </div>
+
+  <!-- AKTUÁLNÍ PRODEJE + YTD -->
+  <div class="section" id="aktualni-prodeje" style="margin-bottom:24px">
+    <div class="section-title">
+      <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
+      📊 Včerejšek a YTD výkon e-shopu
+    </div>
+    <div style="font-size:13px;color:var(--text-muted);margin:-8px 0 20px">Nahoře operativní pohled na včerejšek, hned pod tím navazuje YTD kontext po měsících.</div>
+
+    <div class="two-col" style="align-items:start;gap:24px;margin-bottom:24px">
+      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:16px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
+          Včerejšek (13. 4. 2026)
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px">
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--brand)">
+            <div class="kpi-label">Tržby</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;152&nbsp;208</div>
+            <div class="kpi-sub">Kč s DPH</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--accent)">
+            <div class="kpi-label">Objednávek</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">711</div>
+            <div class="kpi-sub">aktivních</div>
+          </div>
+          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--success)">
+            <div class="kpi-label">Prům. košík</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;621</div>
+            <div class="kpi-sub">Kč</div>
+          </div>
+        </div>
+        <div style="margin-bottom:14px;padding:12px;background:rgba(92,36,80,.06);border-radius:8px;font-size:12.5px">
+          <strong>Rychlé čtení:</strong> včerejšek byl výrazně nad 7denním průměrem, tržby +95 % a počet objednávek +84 %. Průměrný košík byl o <strong>11 %</strong> výš než YTD průměr.
+        </div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Kontext posledních 7 dní</div>
+        <table class="data-table" style="font-size:12.5px">
+          <thead><tr>
+            <th style="text-align:left">Den</th>
+            <th>Tržby (Kč)</th>
+            <th>Obj.</th>
+          </tr></thead>
+          <tbody>
+            <tr><td>Út 7.4.</td><td>826&nbsp;413</td><td>615</td></tr>
+            <tr><td>St 8.4.</td><td>398&nbsp;537</td><td>266</td></tr>
+            <tr><td>Čt 9.4.</td><td>549&nbsp;380</td><td>344</td></tr>
+            <tr><td>Pá 10.4.</td><td>436&nbsp;296</td><td>270</td></tr>
+            <tr><td>So 11.4.</td><td>295&nbsp;102</td><td>189</td></tr>
+            <tr><td>Ne 12.4.</td><td>486&nbsp;404</td><td>309</td></tr>
+            <tr style="font-weight:700;background:rgba(92,36,80,.05)"><td>Po 13.4.</td><td>1&nbsp;152&nbsp;208</td><td>711</td></tr>
+            <tr class="total-row"><td><strong>Celkem 7 dní</strong></td><td><strong>4&nbsp;144&nbsp;340</strong></td><td><strong>2&nbsp;704</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div id="mezirocni" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+          YTD navazující pohled (leden až 13. dubna 2026)
+        </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Stejné období 2025 vs 2026, rozpad po měsících.</div>
+        <div class="kpi-grid" id="yoy-kpi" style="margin-bottom:20px"></div>
+        <div class="chart-container" style="margin:0 0 20px">
+          <svg id="yoyBar" viewBox="0 0 700 280" style="width:100%;max-width:700px"></svg>
+        </div>
+        <div class="chart-container" style="margin:0 0 18px">
+          <svg id="ytdCombo" viewBox="0 0 760 300" style="width:100%;max-width:760px"></svg>
+        </div>
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:var(--brand);color:#fff">
+                <th style="padding:8px 12px;text-align:left">Měsíc</th>
+                <th style="padding:8px 12px;text-align:right">Objednávky 2025</th>
+                <th style="padding:8px 12px;text-align:right">Objednávky 2026</th>
+                <th style="padding:8px 12px;text-align:right">Δ obj.</th>
+                <th style="padding:8px 12px;text-align:right">Tržby 2025</th>
+                <th style="padding:8px 12px;text-align:right">Tržby 2026</th>
+                <th style="padding:8px 12px;text-align:right">Δ tržby</th>
+              </tr>
+            </thead>
+            <tbody id="yoy-tbody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div style="margin-top:10px;font-size:11.5px;color:var(--text-muted)">
+      Zdroj: WPJ Shop API · Data k 14. 4. 2026
     </div>
   </div>
 
@@ -432,7 +561,7 @@ body {
   <div class="section" id="revenue">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-      Tržby po týdnech (Kč s DPH)
+      Kolik vyděláváme každý týden (Kč s DPH)
     </div>
     <div class="chart-container">
       <svg id="revenueBar" viewBox="0 0 840 360" style="width:100%;max-width:840px"></svg>
@@ -443,7 +572,7 @@ body {
   <div class="section" id="products">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"/></svg>
-      TOP 20 produktů
+      Naše nejprodávanější produkty
     </div>
     <div class="two-col" style="align-items:start">
       <div>
@@ -461,7 +590,7 @@ body {
   <div class="section" id="payments">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="1" y="4" width="22" height="16" rx="2"/><path d="M1 10h22"/></svg>
-      Způsoby plateb
+      Jak zákazníci platí
     </div>
     <div class="two-col" style="align-items:start">
       <div class="donut-wrapper" style="justify-content:flex-start;gap:32px">
@@ -505,7 +634,7 @@ body {
   <div class="section" id="top-zakaznici">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-      TOP 25 zákazníků — obrat 2026
+      Naši největší zákazníci — obrat 2026
     </div>
     <div class="two-col" style="align-items:start;margin-bottom:28px">
       <div>
@@ -537,124 +666,122 @@ body {
   </div>
 
   <div style="text-align:center;padding:24px 0 12px;font-size:12px;color:var(--text-muted);">
-    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 06.04.2026
+    Diamond Plus s.r.o. / Království TianDe &nbsp;|&nbsp; WPJ E-shop Report &nbsp;|&nbsp; Vygenerováno 14.04.2026
   </div>
 </div>
 
 <script>
 // ── Data ────────────────────────────────────────────────────────────────────────
 const weekly = [
-  {week:"2026-W01",revenue:83582,count:65},
+  {week:"2026-W01",revenue:1010426,count:790},
   {week:"2026-W02",revenue:3610463,count:2462},
-  {week:"2026-W03",revenue:4001809,count:2446},
+  {week:"2026-W03",revenue:4005082,count:2447},
   {week:"2026-W04",revenue:3084967,count:2161},
-  {week:"2026-W05",revenue:3390073,count:2352},
+  {week:"2026-W05",revenue:3390072,count:2352},
   {week:"2026-W06",revenue:3702398,count:2742},
-  {week:"2026-W07",revenue:3904096,count:2571},
+  {week:"2026-W07",revenue:3904095,count:2571},
   {week:"2026-W08",revenue:3802527,count:2596},
   {week:"2026-W09",revenue:3725012,count:2645},
   {week:"2026-W10",revenue:4161496,count:3067},
-  {week:"2026-W11",revenue:3982989,count:2568},
-  {week:"2026-W12",revenue:4022186,count:2675},
-  {week:"2026-W13",revenue:3167177,count:2170},
-  {week:"2026-W14",revenue:3329577,count:2402},
-  {week:"2026-W15",revenue:128353,count:84}
+  {week:"2026-W11",revenue:3984598,count:2569},
+  {week:"2026-W12",revenue:4013387,count:2668},
+  {week:"2026-W13",revenue:3129897,count:2139},
+  {week:"2026-W14",revenue:3273763,count:2356},
+  {week:"2026-W15",revenue:3694836,count:2478},
+  {week:"2026-W16",revenue:1362869,count:829}
 ];
 
 const weekLabels = [
-  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01",
-  "W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02",
-  "W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03",
-  "W13\n23–29.03","W14\n30.03–05.04","W15\n06.04*"
+  "W01\n29.12–04.01","W02\n05–11.01","W03\n12–18.01","W04\n19–25.01","W05\n26.01–01.02","W06\n02–08.02","W07\n09–15.02","W08\n16–22.02","W09\n23.02–01.03","W10\n02–08.03","W11\n09–15.03","W12\n16–22.03","W13\n23–29.03","W14\n30.03–05.04","W15\n06–12.04","W16\n13–19.04*"
 ];
 
 const top20qty = [
-  {name:"Fytogel Slaviton",qty:11656},
-  {name:"Jemný intimní gel",qty:8246},
-  {name:"Vložky Nefr. svěž. denní super",qty:6694},
-  {name:"Denní vložky aloe Nefr. svěž.",qty:6205},
-  {name:"Fytonáplast Wutong (1 ks)",qty:6020},
-  {name:"Vložky Nefr. svěž. slipové",qty:5762},
-  {name:"Fytonáplast Jian Kang (1 ks)",qty:5155},
-  {name:"Vložky slipové s anionty Nefr.",qty:4918},
-  {name:"Denní vložky fytomembr. Energie",qty:4541},
-  {name:"Denní vložka Energie života",qty:4225},
-  {name:"Instantní nápoj čekanka L-karn.",qty:4165},
-  {name:"Vložky Nefr. svěž. super tenké",qty:3934},
-  {name:"Vložky Nefr. svěž. noční super",qty:3821},
-  {name:"Slipové vložky se stříbrem",qty:3309},
-  {name:"Kolag. liftingová maska mořsk.",qty:3166},
-  {name:"Denní vložky fytomembr. Energie",qty:3128},
-  {name:"Regener. krém na nohy had. olej",qty:2681},
-  {name:"Denní hygienická vložka Jemná",qty:2582},
-  {name:"Revitalizační maska Lingzhi 3ks",qty:2361},
-  {name:"Slipové vložky Nebeská bavlna",qty:2173}
+  {name:"Fytogel Slaviton",qty:12896},
+  {name:"Kosmetická fytonáplast Wutong Počet kusů: ",qty:10091},
+  {name:"Jemný intimní gel",qty:9873},
+  {name:"Dámské bylinné slipové vložky s anionty Ne",qty:9801},
+  {name:"Dámské bylinné menstruační vložky Nefritov",qty:8461},
+  {name:"Denní vložky s extraktem aloe Nefritová sv",qty:8387},
+  {name:"Instantní nápoj s čekankou a L-karnitinem",qty:8357},
+  {name:"Kosmetická fytonáplast Jian Kang (Počet ku",qty:8289},
+  {name:"Denní vložka Energie života (Počet kusů: 5",qty:8229},
+  {name:"Dámské bylinné slipové vložky Nefritová sv",qty:7206},
+  {name:"Denní hygienická vložka „Jemná péče“ (Poče",qty:6286},
+  {name:"Tající kolagenová liftingová pleťová maska",qty:6111},
+  {name:"Denní menstruační vložky s fytomembránou „",qty:5709},
+  {name:"Brožura typy pleti",qty:5381},
+  {name:"Noviny  zpravodaj",qty:5022},
+  {name:"Dámské bylinné menstruační vložky Nefritov",qty:4884},
+  {name:"Peeling Broskvový",qty:4856},
+  {name:"Brožura Fytogely",qty:4798},
+  {name:"Regenerační krém na nohy s hadím olejem (P",qty:4729},
+  {name:"Levanduľová náplasť na nohy (Ks: 10)",qty:4548}
 ];
 
 const top20rev = [
-  {name:"Fytogel Slaviton",rev:3002253},
-  {name:"Jemný intimní gel",rev:2112994},
-  {name:"Kolagen višňová & granátová",rev:940217},
-  {name:"Vložky Nefr. svěž. denní super",rev:917251},
-  {name:"Funkční komplex Citrokalcevit",rev:798171},
-  {name:"Denní vložky fytomembr. Energie",rev:762899},
-  {name:"Fytonáplast Wutong (1 ks)",rev:744860},
-  {name:"Denní vložky aloe Nefr. svěž.",rev:731494},
-  {name:"Mycí prostřed. Mýdelník",rev:720514},
-  {name:"Vložky Nefr. svěž. slipové",rev:678500},
-  {name:"Zpevňující emulze tvář a krk",rev:672283},
-  {name:"Modelující gel tvar obličeje",rev:668836},
-  {name:"Fytonáplast Jian Kang (1 ks)",rev:635384},
-  {name:"Vložky slipové s anionty Nefr.",rev:582254},
-  {name:"Vložky Nefr. svěž. noční super",rev:526601},
-  {name:"Denní vložky fytomembr. Energie",rev:523033},
-  {name:"Masážní gel Orthophyt",rev:481970},
-  {name:"Glutatione complex",rev:481445},
-  {name:"Regenerační sérum v kapslích",rev:435129},
-  {name:"Vložky Nefr. svěž. super tenké",rev:427411}
+  {name:"Fytogel Slaviton",rev:3321795.2999999686},
+  {name:"Jemný intimní gel",rev:2340696.280000015},
+  {name:"Kosmetická fytonáplast Wutong Počet kusů: ",rev:1628169.2400000053},
+  {name:"Kosmetická fytonáplast Jian Kang (Počet ku",rev:1284868.6900000037},
+  {name:"Kolagen s višňovou a granátovou šťávou",rev:1047500.1000000023},
+  {name:"Dámské bylinné menstruační vložky Nefritov",rev:1029780.4000000026},
+  {name:"Náplast na nohy (Počet kusů: 1ks)",rev:900043.4600000016},
+  {name:"Funkční komplex Citrokalcevit",rev:883951.8099999989},
+  {name:"Denní vložky s extraktem aloe Nefritová sv",rev:869963.6499999939},
+  {name:"Denní vložka Energie života (Počet kusů: 5",rev:867883.9499999983},
+  {name:"Denní menstruační vložky s fytomembránou „",rev:845195.3500000023},
+  {name:"Modelující gel na tvar obličeje",rev:806976.7399999994},
+  {name:"Mycí prostředek na nádobí na bázi plodů Mý",rev:793339.330000001},
+  {name:"Dámské bylinné slipové vložky Nefritová sv",rev:752246.9499999961},
+  {name:"Zpevňující a liftingová emulze na obličej ",rev:737740.7699999996},
+  {name:"Levanduľová náplasť na nohy (Ks: 10)",rev:666116.3899999997},
+  {name:"Dámské bylinné slipové vložky s anionty Ne",rev:651142.8999999985},
+  {name:"Denní hygienická vložka „Jemná péče“ (Poče",rev:649445.3799999985},
+  {name:"Denní vložky s fytomembránou „Energie byli",rev:595786.3500000024},
+  {name:"Dámské bylinné menstruační vložky Nefritov",rev:586052.9500000008}
 ];
 
 const payments = [
-  {name:"Bezpečná platba online",count:17466,revenue:24511504},
-  {name:"Platba převodem",count:9670,revenue:15107133},
-  {name:"Dobírkou",count:5205,revenue:7217153},
-  {name:"Platba kartou",count:359,revenue:700021},
-  {name:"Hotově",count:225,revenue:288124},
-  {name:"Twisto – zaplať později",count:41,revenue:156258},
-  {name:"Twisto – na třetiny",count:27,revenue:98314},
-  {name:"Faktura",count:8,revenue:18109},
-  {name:"PayPal",count:4,revenue:91},
+  {name:"Bezpečná platba online",count:18709,revenue:26256703},
+  {name:"Platba převodem",count:10358,revenue:16182748},
+  {name:"Dobírkou",count:5576,revenue:7731008},
+  {name:"Platba kartou",count:385,revenue:749862},
+  {name:"Hotově",count:241,revenue:308638},
+  {name:"Twisto – zaplať później",count:44,revenue:167383},
+  {name:"Twisto – na třetiny",count:29,revenue:105314},
+  {name:"Faktura",count:9,revenue:19398},
+  {name:"PayPal",count:4,revenue:97},
   {name:"Neznámá",count:1,revenue:0}
 ];
 
 const COLORS = ['#5C2450','#e6a817','#22c55e','#6366f1','#ef4444','#f59e0b','#06b6d4','#8b5cf6','#ec4899','#9ca3af'];
 
 const top25customers = [
-  {"name":"Maloobchodní prodej","email_anon":"—","orders":170,"revenue":402171,"avg_order":2366},
-  {"name":"FAKAR s.r.o.","email_anon":"i**o@e*************.cz","orders":38,"revenue":171934,"avg_order":4525},
-  {"name":"Adam Cechner PRODEJ","email_anon":"a*********r@g****.com","orders":35,"revenue":91027,"avg_order":2601},
-  {"name":"Merry Lynch","email_anon":"r***x@v****.cz","orders":9,"revenue":49358,"avg_order":5484},
-  {"name":"Ivana Kunešová","email_anon":"i********s@s*****.cz","orders":42,"revenue":48158,"avg_order":1147},
-  {"name":"Natalie Szmeková","email_anon":"n*****z@e****.cz","orders":19,"revenue":44514,"avg_order":2343},
-  {"name":"KidPro Toys s.r.o.","email_anon":"d********a@k*****.cz","orders":17,"revenue":35022,"avg_order":2060},
-  {"name":"Miluše Dubská","email_anon":"m**********a@s*****.cz","orders":15,"revenue":33251,"avg_order":2217},
-  {"name":"Iveta Freyová","email_anon":"t*****t@s*****.cz","orders":9,"revenue":31684,"avg_order":3520},
-  {"name":"Jaromíra Skopíková","email_anon":"m********************a@s*****.cz","orders":17,"revenue":30671,"avg_order":1804},
-  {"name":"Ivana Rajsiglová","email_anon":"i**************a@p***.cz","orders":10,"revenue":30605,"avg_order":3060},
-  {"name":"Dana Pokorná","email_anon":"d************1@s*****.cz","orders":8,"revenue":28580,"avg_order":3572},
-  {"name":"Miroslava Kostková","email_anon":"m**********a@s*****.cz","orders":10,"revenue":26815,"avg_order":2682},
-  {"name":"Kamila Sabelová","email_anon":"k********a@s*****.cz","orders":8,"revenue":26618,"avg_order":3327},
-  {"name":"Věra Čechová","email_anon":"v******h@s*****.cz","orders":15,"revenue":26195,"avg_order":1746},
-  {"name":"Dana Grogerová","email_anon":"d******5@s*****.cz","orders":6,"revenue":25494,"avg_order":4249},
-  {"name":"Blanka Sekyrková","email_anon":"b*************a@s*****.cz","orders":13,"revenue":25493,"avg_order":1961},
-  {"name":"Lenka Holadová","email_anon":"l***********a@s*****.cz","orders":6,"revenue":25423,"avg_order":4237},
-  {"name":"Andrea Svitáková","email_anon":"a**************a@s*****.cz","orders":15,"revenue":25214,"avg_order":1681},
-  {"name":"Ladislava Šperlingová","email_anon":"l***********a@s*****.cz","orders":12,"revenue":25200,"avg_order":2100},
-  {"name":"Hana Bačkalová","email_anon":"o********h@s*****.cz","orders":12,"revenue":24941,"avg_order":2078},
-  {"name":"Martina Mrázková","email_anon":"m********3@s*****.cz","orders":26,"revenue":24908,"avg_order":958},
-  {"name":"Lýdie Vallušová","email_anon":"l*****5@s*****.cz","orders":15,"revenue":24760,"avg_order":1651},
-  {"name":"Marie Čekanová","email_anon":"m*******6@s*****.cz","orders":10,"revenue":24443,"avg_order":2444},
-  {"name":"Monika Černá","email_anon":"c**********a@m******.cz","orders":12,"revenue":24155,"avg_order":2013}
+  {"name":"Maloobchodní prodej","email_anon":"—","orders":175,"revenue":416593,"avg_order":2380},
+  {"name":"info@energieprirody.cz","email_anon":"i***@e*************.cz","orders":39,"revenue":177091,"avg_order":4540},
+  {"name":"adamcechner@gmail.com","email_anon":"a**********@g****.com","orders":43,"revenue":117012,"avg_order":2721},
+  {"name":"ivanakunes@seznam.cz","email_anon":"i*********@s*****.cz","orders":46,"revenue":52609,"avg_order":1143},
+  {"name":"rivox@volny.cz","email_anon":"r****@v****.cz","orders":9,"revenue":49358,"avg_order":5484},
+  {"name":"nati.sz@email.cz","email_anon":"n******@e****.cz","orders":20,"revenue":46733,"avg_order":2336},
+  {"name":"domoradova@kidpro.cz","email_anon":"d*********@k*****.cz","orders":18,"revenue":36639,"avg_order":2035},
+  {"name":"ivana.rajsiglova@post.cz","email_anon":"i***************@p***.cz","orders":11,"revenue":35388,"avg_order":3217},
+  {"name":"milusedubska@seznam.cz","email_anon":"m***********@s*****.cz","orders":16,"revenue":34588,"avg_order":2161},
+  {"name":"mgr.vendulascheichlova@seznam.cz","email_anon":"m*********************@s*****.cz","orders":18,"revenue":34405,"avg_order":1911},
+  {"name":"danka.pokorna1@seznam.cz","email_anon":"d*************@s*****.cz","orders":10,"revenue":34389,"avg_order":3438},
+  {"name":"typivet@seznam.cz","email_anon":"t******@s*****.cz","orders":9,"revenue":31684,"avg_order":3520},
+  {"name":"l.sperlingova@seznam.cz","email_anon":"l************@s*****.cz","orders":14,"revenue":30266,"avg_order":2161},
+  {"name":"k.sabelova@seznam.cz","email_anon":"k*********@s*****.cz","orders":9,"revenue":30097,"avg_order":3344},
+  {"name":"andrea.svitakova@seznam.cz","email_anon":"a***************@s*****.cz","orders":17,"revenue":28618,"avg_order":1683},
+  {"name":"maricek56@seznam.cz","email_anon":"m********@s*****.cz","orders":11,"revenue":27940,"avg_order":2540},
+  {"name":"doletka2@seznam.cz","email_anon":"d*******@s*****.cz","orders":8,"revenue":27106,"avg_order":3388},
+  {"name":"mir.kostkova@seznam.cz","email_anon":"m***********@s*****.cz","orders":10,"revenue":26815,"avg_order":2681},
+  {"name":"dana.schitkova@centrum.cz","email_anon":"d*************@c******.cz","orders":6,"revenue":26693,"avg_order":4448},
+  {"name":"mrazkova73@seznam.cz","email_anon":"m*********@s*****.cz","orders":28,"revenue":26645,"avg_order":951},
+  {"name":"ala.tumova@centrum.cz","email_anon":"a*********@c******.cz","orders":11,"revenue":26599,"avg_order":2418},
+  {"name":"veracech@seznam.cz","email_anon":"v*******@s*****.cz","orders":15,"revenue":26195,"avg_order":1746},
+  {"name":"sramkova_jana@seznam.cz","email_anon":"s************@s*****.cz","orders":11,"revenue":25663,"avg_order":2333},
+  {"name":"dandy.25@seznam.cz","email_anon":"d*******@s*****.cz","orders":6,"revenue":25494,"avg_order":4249},
+  {"name":"blankasekyrkova@seznam.cz","email_anon":"b**************@s*****.cz","orders":13,"revenue":25493,"avg_order":1961}
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────────────────
@@ -867,6 +994,216 @@ function buildTop25() {
   }).join('');
 }
 
+// ── YoY Data ─────────────────────────────────────────────────────────────────────
+const yoyMonths = [
+  {label:'Leden',   m25:{count:11988, rev:15765609}, m26:{count:9848,  rev:14662580}},
+  {label:'Únor',    m25:{count:12600, rev:16357334}, m26:{count:10445, rev:14903972}},
+  {label:'Březen',  m25:{count:12892, rev:16414183}, m26:{count:12079, rev:17600645}},
+  {label:'Duben*',  m25:{count:5452,  rev:7528831},  m26:{count:3792,  rev:5539410}},
+];
+// April 2025 partial: proportional to 13/30 days of full April (13469 orders, 18708141 rev)
+// Using actual Jan-Apr13 for fair comparison
+// For same-period YTD we use Jan+Feb+Mar + partial Apr
+// Apr 2025 full=13469, scaling 13/30 ≈ 5836 orders, 8106461 rev
+const ytd25 = {
+  count: 11988 + 12600 + 12892 + Math.round(13469 * 13/30),
+  rev:   15765609 + 16357334 + 16414183 + Math.round(18708141 * 13/30)
+};
+const ytd26 = {count: 9848+10445+12079+3792, rev: 14662580+14903972+17600645+5539410};
+
+// Update display months with estimated Apr partial 2025
+yoyMonths[3].m25 = {count: Math.round(13469*13/30), rev: Math.round(18708141*13/30)};
+
+function buildYoyKpi() {
+  const pctCount = ((ytd26.count - ytd25.count) / ytd25.count * 100).toFixed(1);
+  const pctRev   = ((ytd26.rev   - ytd25.rev)   / ytd25.rev   * 100).toFixed(1);
+  const avg25 = ytd25.rev / ytd25.count;
+  const avg26 = ytd26.rev / ytd26.count;
+  const pctAvg = ((avg26 - avg25) / avg25 * 100).toFixed(1);
+
+  function badge(pct) {
+    const n = parseFloat(pct);
+    const color = n >= 0 ? 'var(--success)' : 'var(--danger)';
+    const arrow = n >= 0 ? '▲' : '▼';
+    return `<span style="color:${color};font-size:14px;font-weight:700">${arrow} ${Math.abs(pct)}&nbsp;%</span>`;
+  }
+
+  document.getElementById('yoy-kpi').innerHTML = `
+    <div class="kpi-card purple">
+      <div class="kpi-label">Celkové tržby (YTD)</div>
+      <div class="kpi-value" style="font-size:20px">${fmtCZK(ytd26.rev)}</div>
+      <div class="kpi-sub">2025: ${fmtCZK(ytd25.rev)} &nbsp; ${badge(pctRev)}</div>
+    </div>
+    <div class="kpi-card gold">
+      <div class="kpi-label">Počet objednávek (YTD)</div>
+      <div class="kpi-value">${fmtN(ytd26.count)}</div>
+      <div class="kpi-sub">2025: ${fmtN(ytd25.count)} &nbsp; ${badge(pctCount)}</div>
+    </div>
+    <div class="kpi-card green">
+      <div class="kpi-label">Průměrný košík (YTD)</div>
+      <div class="kpi-value">${fmtCZK(avg26)}</div>
+      <div class="kpi-sub">2025: ${fmtCZK(avg25)} &nbsp; ${badge(pctAvg)}</div>
+    </div>`;
+}
+
+function buildYoyTable() {
+  const totals25 = yoyMonths.reduce((s,m)=>({count:s.count+m.m25.count, rev:s.rev+m.m25.rev}),{count:0,rev:0});
+  const totals26 = yoyMonths.reduce((s,m)=>({count:s.count+m.m26.count, rev:s.rev+m.m26.rev}),{count:0,rev:0});
+
+  function deltaCell(v25, v26) {
+    const pct = ((v26-v25)/v25*100).toFixed(1);
+    const n = parseFloat(pct);
+    const color = n >= 0 ? 'var(--success)' : 'var(--danger)';
+    const arrow = n >= 0 ? '▲' : '▼';
+    return `<span style="color:${color};font-weight:600">${arrow}&nbsp;${Math.abs(pct)}&nbsp;%</span>`;
+  }
+
+  const tdS = 'padding:8px 12px;text-align:right;border-bottom:1px solid var(--border)';
+  const tdL = 'padding:8px 12px;text-align:left;border-bottom:1px solid var(--border)';
+
+  let rows = yoyMonths.map((m,i) => {
+    const isLast = i === yoyMonths.length - 1;
+    const note = isLast ? '<span style="font-size:10px;color:var(--text-muted)"> (1–10)</span>' : '';
+    return `<tr style="${isLast ? 'opacity:.8' : ''}">
+      <td style="${tdL}"><strong>${m.label}</strong>${note}</td>
+      <td style="${tdS}">${fmtN(m.m25.count)}</td>
+      <td style="${tdS}">${fmtN(m.m26.count)}</td>
+      <td style="${tdS}">${deltaCell(m.m25.count, m.m26.count)}</td>
+      <td style="${tdS}">${fmtCZK(m.m25.rev)}</td>
+      <td style="${tdS}">${fmtCZK(m.m26.rev)}</td>
+      <td style="${tdS}">${deltaCell(m.m25.rev, m.m26.rev)}</td>
+    </tr>`;
+  }).join('');
+
+  rows += `<tr style="font-weight:700;background:rgba(92,36,80,.07)">
+    <td style="${tdL}">Celkem YTD</td>
+    <td style="${tdS}">${fmtN(totals25.count)}</td>
+    <td style="${tdS}">${fmtN(totals26.count)}</td>
+    <td style="${tdS}">${deltaCell(totals25.count, totals26.count)}</td>
+    <td style="${tdS}">${fmtCZK(totals25.rev)}</td>
+    <td style="${tdS}">${fmtCZK(totals26.rev)}</td>
+    <td style="${tdS}">${deltaCell(totals25.rev, totals26.rev)}</td>
+  </tr>`;
+
+  document.getElementById('yoy-tbody').innerHTML = rows;
+}
+
+function drawYoyBar() {
+  const svg = document.getElementById('yoyBar');
+  if (!svg) return;
+  const W = 700, H = 280;
+  const pad = {t:30, b:60, l:60, r:20};
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const tc = isDark ? '#9ca3af' : '#6b7280';
+  const gc = isDark ? '#2d2f3a' : '#e5e7eb';
+
+  const maxRev = Math.max(...yoyMonths.map(m => Math.max(m.m25.rev, m.m26.rev)));
+  const groupW = cW / yoyMonths.length;
+  const barW = Math.min(groupW * 0.35, 40);
+  const gap = groupW - barW * 2 - 6;
+
+  let html = '';
+
+  // Grid lines
+  [0, 0.25, 0.5, 0.75, 1].forEach(frac => {
+    const y = pad.t + cH - frac * cH;
+    html += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gc}" stroke-width="1"/>`;
+    if (frac > 0) {
+      const v = maxRev * frac;
+      html += `<text x="${pad.l-6}" y="${y+4}" text-anchor="end" fill="${tc}" font-size="10">${(v/1000000).toFixed(0)} mil.</text>`;
+    }
+  });
+
+  // Bars
+  yoyMonths.forEach((m, i) => {
+    const gx = pad.l + i * groupW + gap/2;
+    const h25 = (m.m25.rev / maxRev) * cH;
+    const h26 = (m.m26.rev / maxRev) * cH;
+    const y25 = pad.t + cH - h25;
+    const y26 = pad.t + cH - h26;
+
+    html += `<rect x="${gx}" y="${y25}" width="${barW}" height="${h25}" fill="#5C2450" rx="3" opacity=".75"/>`;
+    html += `<rect x="${gx + barW + 4}" y="${y26}" width="${barW}" height="${h26}" fill="#e6a817" rx="3" opacity=".9"/>`;
+
+    // Month label
+    const lx = gx + barW + 2;
+    html += `<text x="${lx}" y="${H - pad.b + 14}" text-anchor="middle" fill="${tc}" font-size="11">${m.label.replace('*','')}</text>`;
+  });
+
+  // Legend
+  html += `<rect x="${pad.l}" y="${H-18}" width="12" height="10" fill="#5C2450" rx="2"/>`;
+  html += `<text x="${pad.l+16}" y="${H-10}" fill="${tc}" font-size="11">2025</text>`;
+  html += `<rect x="${pad.l+60}" y="${H-18}" width="12" height="10" fill="#e6a817" rx="2"/>`;
+  html += `<text x="${pad.l+76}" y="${H-10}" fill="${tc}" font-size="11">2026</text>`;
+
+  svg.innerHTML = html;
+}
+
+function drawYtdCombo() {
+  const svg = document.getElementById('ytdCombo');
+  if (!svg) return;
+
+  const W = 760, H = 300;
+  const pad = {t: 30, r: 70, b: 58, l: 60};
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const tc = isDark ? '#9ca3af' : '#6b7280';
+  const gc = isDark ? '#2d2f3a' : '#e5e7eb';
+
+  const monthly26 = yoyMonths.map(m => ({
+    label: m.label.replace('*', ''),
+    count: m.m26.count,
+    avg: m.m26.count > 0 ? m.m26.rev / m.m26.count : 0
+  }));
+
+  const maxCount = Math.max(...monthly26.map(m => m.count)) * 1.1;
+  const maxAvg = Math.max(...monthly26.map(m => m.avg)) * 1.1;
+  const groupW = cW / monthly26.length;
+  const barW = Math.min(42, groupW * 0.45);
+
+  let html = '';
+
+  [0, 0.25, 0.5, 0.75, 1].forEach(frac => {
+    const y = pad.t + cH - frac * cH;
+    const countVal = maxCount * frac;
+    const avgVal = maxAvg * frac;
+    html += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gc}" stroke-width="1"/>`;
+    html += `<text x="${pad.l-8}" y="${y+4}" text-anchor="end" fill="${tc}" font-size="10">${fmtN(Math.round(countVal))}</text>`;
+    if (frac > 0) {
+      html += `<text x="${W-pad.r+8}" y="${y+4}" text-anchor="start" fill="${tc}" font-size="10">${fmtCZK(Math.round(avgVal),0)}</text>`;
+    }
+  });
+
+  let linePath = '';
+  monthly26.forEach((m, i) => {
+    const x = pad.l + i * groupW + groupW / 2;
+    const barH = (m.count / maxCount) * cH;
+    const y = pad.t + cH - barH;
+    html += `<rect x="${x - barW/2}" y="${y}" width="${barW}" height="${barH}" fill="#e6a817" rx="4" opacity="0.9"><title>${m.label}: ${fmtN(m.count)} objednávek</title></rect>`;
+    html += `<text x="${x}" y="${H-pad.b+16}" text-anchor="middle" fill="${tc}" font-size="11">${m.label}</text>`;
+
+    const lineY = pad.t + cH - (m.avg / maxAvg) * cH;
+    linePath += `${i === 0 ? 'M' : 'L'}${x},${lineY} `;
+    html += `<circle cx="${x}" cy="${lineY}" r="4" fill="#5C2450" stroke="#fff" stroke-width="2"><title>${m.label}: ${fmtCZK(m.avg,0)} průměrný košík</title></circle>`;
+    html += `<text x="${x}" y="${lineY-10}" text-anchor="middle" fill="#5C2450" font-size="10" font-weight="700">${fmtCZK(m.avg,0)}</text>`;
+  });
+
+  html += `<path d="${linePath.trim()}" fill="none" stroke="#5C2450" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+  html += `<text x="${pad.l}" y="16" fill="${tc}" font-size="12" font-weight="700">YTD 2026 po měsících: objednávky (sloupce) + průměrný košík (linie)</text>`;
+  html += `<text x="18" y="${pad.t + cH/2}" text-anchor="middle" fill="${tc}" font-size="10" transform="rotate(-90,18,${pad.t + cH/2})">Objednávky</text>`;
+  html += `<text x="${W-16}" y="${pad.t + cH/2}" text-anchor="middle" fill="${tc}" font-size="10" transform="rotate(90,${W-16},${pad.t + cH/2})">Prům. košík</text>`;
+  html += `<rect x="${pad.l}" y="${H-18}" width="12" height="10" fill="#e6a817" rx="2"/>`;
+  html += `<text x="${pad.l+18}" y="${H-9}" fill="${tc}" font-size="11">Objednávky 2026</text>`;
+  html += `<line x1="${pad.l+120}" y1="${H-13}" x2="${pad.l+146}" y2="${H-13}" stroke="#5C2450" stroke-width="3"/>`;
+  html += `<circle cx="${pad.l+133}" cy="${H-13}" r="4" fill="#5C2450" stroke="#fff" stroke-width="2"/>`;
+  html += `<text x="${pad.l+154}" y="${H-9}" fill="${tc}" font-size="11">Průměrný košík 2026</text>`;
+
+  svg.innerHTML = html;
+}
+
 // ── Draw All ─────────────────────────────────────────────────────────────────────
 function drawAll() {
   drawRevenueBar();
@@ -876,6 +1213,10 @@ function drawAll() {
   buildPaymentTable();
   buildWeekTable();
   buildTop25();
+  buildYoyKpi();
+  buildYoyTable();
+  drawYoyBar();
+  drawYtdCombo();
 }
 
 drawAll();
@@ -908,7 +1249,7 @@ window.addEventListener('scroll', () => {
 });
 
 // Default dark mode
-document.documentElement.setAttribute('data-theme', 'dark');
+/* light mode default */;
 drawAll();
 </script>
 </body>

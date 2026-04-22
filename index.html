@@ -21,7 +21,7 @@
   --sidebar-w: 260px;
   --radius: 12px;
 }
-[] {
+[data-theme="dark"] {
   --bg: #0f1117;
   --card: #1a1c25;
   --text: #e4e4e7;
@@ -155,7 +155,7 @@ body {
 /* HEADER */
 .header { margin-bottom: 32px; }
 .header h1 { font-size: 26px; font-weight: 700; color: var(--brand); }
-[] .header h1 { color: var(--brand-light); }
+[data-theme="dark"] .header h1 { color: var(--brand-light); }
 .header .period { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
 .header-row { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; }
 .theme-toggle {
@@ -212,7 +212,7 @@ body {
   gap: 10px;
 }
 .section-title svg { width: 20px; height: 20px; color: var(--brand); }
-[] .section-title svg { color: var(--brand-light); }
+[data-theme="dark"] .section-title svg { color: var(--brand-light); }
 /* CHART */
 .chart-container { width: 100%; overflow-x: auto; }
 .chart-container svg { display: block; margin: 0 auto; }
@@ -305,9 +305,9 @@ body {
 }
 .data-table tbody td:first-child { text-align: left; }
 .data-table tbody tr:hover { background: rgba(92,36,80,.04); }
-[] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
+[data-theme="dark"] .data-table tbody tr:hover { background: rgba(155,100,144,.08); }
 .data-table tbody tr.total-row td { font-weight: 700; background: rgba(92,36,80,.06); }
-[] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
+[data-theme="dark"] .data-table tbody tr.total-row td { background: rgba(155,100,144,.1); }
 .data-table tfoot td { font-weight: 700; padding: 11px 14px; text-align: right; }
 .data-table tfoot td:first-child { text-align: left; }
 /* RANK BADGE */
@@ -467,38 +467,41 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     </div>
   </div>
 
-  <!-- AKTUÁLNÍ PRODEJE -->
+  <!-- AKTUÁLNÍ PRODEJE + YTD -->
   <div class="section" id="aktualni-prodeje" style="margin-bottom:24px">
     <div class="section-title">
       <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"/></svg>
-      📊 Aktuální prodeje
+      📊 Včerejšek a YTD výkon e-shopu
     </div>
-    <div class="two-col" style="align-items:start;gap:24px">
+    <div style="font-size:13px;color:var(--text-muted);margin:-8px 0 20px">Nahoře operativní pohled na včerejšek, hned pod tím navazuje YTD kontext po měsících.</div>
 
-      <!-- LEFT: LAST 7 DAYS -->
+    <div class="two-col" style="align-items:start;gap:24px;margin-bottom:24px">
       <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
         <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:16px;display:flex;align-items:center;gap:8px">
           <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          Posledních 7 dní (7.–13.4.2026)
+          Včerejšek (13. 4. 2026)
         </div>
         <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px">
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--brand)">
             <div class="kpi-label">Tržby</div>
-            <div style="font-size:22px;font-weight:800;margin:4px 0">4&nbsp;144&nbsp;340</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;152&nbsp;208</div>
             <div class="kpi-sub">Kč s DPH</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--accent)">
             <div class="kpi-label">Objednávek</div>
-            <div style="font-size:22px;font-weight:800;margin:4px 0">2&nbsp;704</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">711</div>
             <div class="kpi-sub">aktivních</div>
           </div>
           <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--success)">
             <div class="kpi-label">Prům. košík</div>
-            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;533</div>
+            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;621</div>
             <div class="kpi-sub">Kč</div>
           </div>
         </div>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Denní přehled</div>
+        <div style="margin-bottom:14px;padding:12px;background:rgba(92,36,80,.06);border-radius:8px;font-size:12.5px">
+          <strong>Rychlé čtení:</strong> včerejšek byl výrazně nad 7denním průměrem, tržby +95 % a počet objednávek +84 %. Průměrný košík byl o <strong>11 %</strong> výš než YTD průměr.
+        </div>
+        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Kontext posledních 7 dní</div>
         <table class="data-table" style="font-size:12.5px">
           <thead><tr>
             <th style="text-align:left">Den</th>
@@ -513,73 +516,44 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
             <tr><td>So 11.4.</td><td>295&nbsp;102</td><td>189</td></tr>
             <tr><td>Ne 12.4.</td><td>486&nbsp;404</td><td>309</td></tr>
             <tr style="font-weight:700;background:rgba(92,36,80,.05)"><td>Po 13.4.</td><td>1&nbsp;152&nbsp;208</td><td>711</td></tr>
-            <tr class="total-row"><td><strong>Celkem</strong></td><td><strong>4&nbsp;144&nbsp;340</strong></td><td><strong>2&nbsp;704</strong></td></tr>
-          </tbody>
-        </table>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-top:16px;margin-bottom:8px">Top 5 produktů (tržby)</div>
-        <table class="data-table" style="font-size:12px">
-          <thead><tr>
-            <th style="text-align:left">#</th>
-            <th style="text-align:left">Produkt</th>
-            <th>Kč</th>
-          </tr></thead>
-          <tbody>
-            <tr><td><span class="rank gold">1</span></td><td>Fytogel Slaviton</td><td>297&nbsp;938</td></tr>
-            <tr><td><span class="rank silver">2</span></td><td>Jemný intimní gel</td><td>192&nbsp;279</td></tr>
-            <tr><td><span class="rank bronze">3</span></td><td>Fytonáplast Wutong</td><td>123&nbsp;471</td></tr>
-            <tr><td><span class="rank">4</span></td><td>Levandulová náplast na nohy</td><td>121&nbsp;661</td></tr>
-            <tr><td><span class="rank">5</span></td><td>Fytonáplast Jian Kang</td><td>98&nbsp;866</td></tr>
+            <tr class="total-row"><td><strong>Celkem 7 dní</strong></td><td><strong>4&nbsp;144&nbsp;340</strong></td><td><strong>2&nbsp;704</strong></td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- RIGHT: MARCH 2026 -->
-      <div style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
-        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:16px;display:flex;align-items:center;gap:8px">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/></svg>
-          Předchozí měsíc (březen 2026)
+      <div id="mezirocni" style="background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:20px">
+        <div style="font-size:15px;font-weight:700;color:var(--brand);margin-bottom:10px;display:flex;align-items:center;gap:8px">
+          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
+          YTD navazující pohled (leden až 13. dubna 2026)
         </div>
-        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:18px">
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--brand)">
-            <div class="kpi-label">Tržby</div>
-            <div style="font-size:19px;font-weight:800;margin:4px 0">17&nbsp;607&nbsp;126</div>
-            <div class="kpi-sub">Kč s DPH</div>
-          </div>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--accent)">
-            <div class="kpi-label">Objednávek</div>
-            <div style="font-size:22px;font-weight:800;margin:4px 0">12&nbsp;081</div>
-            <div class="kpi-sub">aktivních</div>
-          </div>
-          <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;border-top:3px solid var(--success)">
-            <div class="kpi-label">Prům. košík</div>
-            <div style="font-size:22px;font-weight:800;margin:4px 0">1&nbsp;457</div>
-            <div class="kpi-sub">Kč</div>
-          </div>
+        <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Stejné období 2025 vs 2026, rozpad po měsících.</div>
+        <div class="kpi-grid" id="yoy-kpi" style="margin-bottom:20px"></div>
+        <div class="chart-container" style="margin:0 0 20px">
+          <svg id="yoyBar" viewBox="0 0 700 280" style="width:100%;max-width:700px"></svg>
         </div>
-        <div style="font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--text-muted);margin-bottom:8px">Top 5 produktů (počet kusů)</div>
-        <table class="data-table" style="font-size:12px">
-          <thead><tr>
-            <th style="text-align:left">#</th>
-            <th style="text-align:left">Produkt</th>
-            <th>Ks</th>
-            <th>Tržby (Kč)</th>
-          </tr></thead>
-          <tbody>
-            <tr><td><span class="rank gold">1</span></td><td>Fytogel Slaviton</td><td>4&nbsp;412</td><td>1&nbsp;154&nbsp;387</td></tr>
-            <tr><td><span class="rank silver">2</span></td><td>Noviny / zpravodaj</td><td>3&nbsp;933</td><td>—</td></tr>
-            <tr><td><span class="rank bronze">3</span></td><td>Jemný intimní gel</td><td>3&nbsp;363</td><td>799&nbsp;380</td></tr>
-            <tr><td><span class="rank">4</span></td><td>Slipové vložky s anionty</td><td>3&nbsp;355</td><td>223&nbsp;908</td></tr>
-            <tr><td><span class="rank">5</span></td><td>Brožura Fytogely</td><td>3&nbsp;194</td><td>—</td></tr>
-          </tbody>
-        </table>
-        <div style="margin-top:16px;padding:12px;background:rgba(92,36,80,.06);border-radius:8px;font-size:12.5px">
-          <strong>Porovnání:</strong> průměrná hodnota košíku 1&nbsp;457&nbsp;Kč v březnu odpovídá celoroční průměr. Denní průměr: <strong>567&nbsp;975&nbsp;Kč</strong> / <strong>390 obj.</strong> za den.
+        <div class="chart-container" style="margin:0 0 18px">
+          <svg id="ytdCombo" viewBox="0 0 760 300" style="width:100%;max-width:760px"></svg>
         </div>
-        <div style="margin-top:10px;font-size:11.5px;color:var(--text-muted)">
-          Zdroj: WPJ Shop API · Data k 14. 4. 2026
+        <div style="overflow-x:auto">
+          <table style="width:100%;border-collapse:collapse;font-size:13px">
+            <thead>
+              <tr style="background:var(--brand);color:#fff">
+                <th style="padding:8px 12px;text-align:left">Měsíc</th>
+                <th style="padding:8px 12px;text-align:right">Objednávky 2025</th>
+                <th style="padding:8px 12px;text-align:right">Objednávky 2026</th>
+                <th style="padding:8px 12px;text-align:right">Δ obj.</th>
+                <th style="padding:8px 12px;text-align:right">Tržby 2025</th>
+                <th style="padding:8px 12px;text-align:right">Tržby 2026</th>
+                <th style="padding:8px 12px;text-align:right">Δ tržby</th>
+              </tr>
+            </thead>
+            <tbody id="yoy-tbody"></tbody>
+          </table>
         </div>
       </div>
-
+    </div>
+    <div style="margin-top:10px;font-size:11.5px;color:var(--text-muted)">
+      Zdroj: WPJ Shop API · Data k 14. 4. 2026
     </div>
   </div>
 
@@ -689,43 +663,6 @@ aside a, .sidebar-nav a, .sidebar a, nav a[href*="rkonfal.github.io"] { font-siz
     <div style="margin-top:12px;font-size:11.5px;color:var(--text-muted)">
       * Zahrnuje pouze aktivní (nestornované) objednávky od 01.01.2026. E-mailové adresy jsou anonymizovány.
     </div>
-  </div>
-
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <!-- MEZIROČNÍ POROVNÁNÍ 2025 vs 2026                                   -->
-  <!-- ═══════════════════════════════════════════════════════════════════ -->
-  <div class="section" id="mezirocni">
-  <div class="section-title">
-    <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6m6 0h6m-6 0V9a2 2 0 012-2h2a2 2 0 012 2v10m6 0v-4a2 2 0 00-2-2h-2a2 2 0 00-2 2v4"/></svg>
-    Meziroční porovnání 2025 vs 2026
-  </div>
-  <div style="font-size:12px;color:var(--text-muted);margin-bottom:16px">Stejné období: leden–13. dubna 2025 vs leden–13. dubna 2026</div>
-
-  <!-- KPI cards -->
-  <div class="kpi-grid" id="yoy-kpi"></div>
-
-  <!-- Bar chart -->
-  <div class="chart-container" style="margin:24px 0 20px">
-    <svg id="yoyBar" viewBox="0 0 700 280" style="width:100%;max-width:700px"></svg>
-  </div>
-
-  <!-- Monthly table -->
-  <div style="overflow-x:auto">
-    <table style="width:100%;border-collapse:collapse;font-size:13px">
-      <thead>
-        <tr style="background:var(--brand);color:#fff">
-          <th style="padding:8px 12px;text-align:left">Měsíc</th>
-          <th style="padding:8px 12px;text-align:right">Objednávky 2025</th>
-          <th style="padding:8px 12px;text-align:right">Objednávky 2026</th>
-          <th style="padding:8px 12px;text-align:right">Δ obj.</th>
-          <th style="padding:8px 12px;text-align:right">Tržby 2025</th>
-          <th style="padding:8px 12px;text-align:right">Tržby 2026</th>
-          <th style="padding:8px 12px;text-align:right">Δ tržby</th>
-        </tr>
-      </thead>
-      <tbody id="yoy-tbody"></tbody>
-    </table>
-  </div>
   </div>
 
   <div style="text-align:center;padding:24px 0 12px;font-size:12px;color:var(--text-muted);">
@@ -1204,6 +1141,69 @@ function drawYoyBar() {
   svg.innerHTML = html;
 }
 
+function drawYtdCombo() {
+  const svg = document.getElementById('ytdCombo');
+  if (!svg) return;
+
+  const W = 760, H = 300;
+  const pad = {t: 30, r: 70, b: 58, l: 60};
+  const cW = W - pad.l - pad.r;
+  const cH = H - pad.t - pad.b;
+  const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+  const tc = isDark ? '#9ca3af' : '#6b7280';
+  const gc = isDark ? '#2d2f3a' : '#e5e7eb';
+
+  const monthly26 = yoyMonths.map(m => ({
+    label: m.label.replace('*', ''),
+    count: m.m26.count,
+    avg: m.m26.count > 0 ? m.m26.rev / m.m26.count : 0
+  }));
+
+  const maxCount = Math.max(...monthly26.map(m => m.count)) * 1.1;
+  const maxAvg = Math.max(...monthly26.map(m => m.avg)) * 1.1;
+  const groupW = cW / monthly26.length;
+  const barW = Math.min(42, groupW * 0.45);
+
+  let html = '';
+
+  [0, 0.25, 0.5, 0.75, 1].forEach(frac => {
+    const y = pad.t + cH - frac * cH;
+    const countVal = maxCount * frac;
+    const avgVal = maxAvg * frac;
+    html += `<line x1="${pad.l}" y1="${y}" x2="${W-pad.r}" y2="${y}" stroke="${gc}" stroke-width="1"/>`;
+    html += `<text x="${pad.l-8}" y="${y+4}" text-anchor="end" fill="${tc}" font-size="10">${fmtN(Math.round(countVal))}</text>`;
+    if (frac > 0) {
+      html += `<text x="${W-pad.r+8}" y="${y+4}" text-anchor="start" fill="${tc}" font-size="10">${fmtCZK(Math.round(avgVal),0)}</text>`;
+    }
+  });
+
+  let linePath = '';
+  monthly26.forEach((m, i) => {
+    const x = pad.l + i * groupW + groupW / 2;
+    const barH = (m.count / maxCount) * cH;
+    const y = pad.t + cH - barH;
+    html += `<rect x="${x - barW/2}" y="${y}" width="${barW}" height="${barH}" fill="#e6a817" rx="4" opacity="0.9"><title>${m.label}: ${fmtN(m.count)} objednávek</title></rect>`;
+    html += `<text x="${x}" y="${H-pad.b+16}" text-anchor="middle" fill="${tc}" font-size="11">${m.label}</text>`;
+
+    const lineY = pad.t + cH - (m.avg / maxAvg) * cH;
+    linePath += `${i === 0 ? 'M' : 'L'}${x},${lineY} `;
+    html += `<circle cx="${x}" cy="${lineY}" r="4" fill="#5C2450" stroke="#fff" stroke-width="2"><title>${m.label}: ${fmtCZK(m.avg,0)} průměrný košík</title></circle>`;
+    html += `<text x="${x}" y="${lineY-10}" text-anchor="middle" fill="#5C2450" font-size="10" font-weight="700">${fmtCZK(m.avg,0)}</text>`;
+  });
+
+  html += `<path d="${linePath.trim()}" fill="none" stroke="#5C2450" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>`;
+  html += `<text x="${pad.l}" y="16" fill="${tc}" font-size="12" font-weight="700">YTD 2026 po měsících: objednávky (sloupce) + průměrný košík (linie)</text>`;
+  html += `<text x="18" y="${pad.t + cH/2}" text-anchor="middle" fill="${tc}" font-size="10" transform="rotate(-90,18,${pad.t + cH/2})">Objednávky</text>`;
+  html += `<text x="${W-16}" y="${pad.t + cH/2}" text-anchor="middle" fill="${tc}" font-size="10" transform="rotate(90,${W-16},${pad.t + cH/2})">Prům. košík</text>`;
+  html += `<rect x="${pad.l}" y="${H-18}" width="12" height="10" fill="#e6a817" rx="2"/>`;
+  html += `<text x="${pad.l+18}" y="${H-9}" fill="${tc}" font-size="11">Objednávky 2026</text>`;
+  html += `<line x1="${pad.l+120}" y1="${H-13}" x2="${pad.l+146}" y2="${H-13}" stroke="#5C2450" stroke-width="3"/>`;
+  html += `<circle cx="${pad.l+133}" cy="${H-13}" r="4" fill="#5C2450" stroke="#fff" stroke-width="2"/>`;
+  html += `<text x="${pad.l+154}" y="${H-9}" fill="${tc}" font-size="11">Průměrný košík 2026</text>`;
+
+  svg.innerHTML = html;
+}
+
 // ── Draw All ─────────────────────────────────────────────────────────────────────
 function drawAll() {
   drawRevenueBar();
@@ -1216,6 +1216,7 @@ function drawAll() {
   buildYoyKpi();
   buildYoyTable();
   drawYoyBar();
+  drawYtdCombo();
 }
 
 drawAll();
